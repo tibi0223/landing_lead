@@ -177,9 +177,7 @@ strong {
   }
 }
 
-.header__phone {
-  display: none; /* Hide standard phone chip for premium look, rely on hero btn */
-}
+
 
 /* =============================================
    HERO
@@ -240,18 +238,6 @@ strong {
   gap: 1.25rem;
 }
 
-@media (min-width: 1024px) {
-  .hero__content {
-    padding: 8rem 3rem 3rem;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto auto;
-    align-items: start;
-    column-gap: 2rem;
-    text-align: left;
-  }
-}
-
 .hero__title {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 800;
@@ -268,8 +254,16 @@ strong {
   max-width: 600px;
 }
 
-/* Desktop: title and subtitle in column 1, USP box in column 2 */
 @media (min-width: 1024px) {
+  .hero__content {
+    padding: 8rem 3rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    align-items: start;
+    column-gap: 2rem;
+    text-align: left;
+  }
   .hero__title {
     grid-column: 1;
     grid-row: 1;
@@ -483,7 +477,6 @@ strong {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 4rem 1.5rem 0;
-  padding-bottom: 0;
 }
 
 /* Blur transition at bottom of gallery */
@@ -622,8 +615,8 @@ strong {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 4rem 1.5rem;
-  gap: 2rem;
+  padding: 3rem 1.5rem;
+  gap: 1rem;
 }
 
 .process__title {
@@ -652,7 +645,7 @@ strong {
   gap: 1.5rem;
   width: 100%;
   max-width: 600px;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
 }
 
 .process__line {
@@ -1193,9 +1186,6 @@ strong {
 /* =============================================
    CONTACT
    ============================================= */
-/* =============================================
-   CONTACT
-   ============================================= */
 .contact {
   background: var(--bg);
   display: flex;
@@ -1344,36 +1334,3 @@ strong {
   border-bottom-color: var(--gold);
 }
 
-/* contact__btn replaced by btn btn--primary */
-
-/* =============================================
-   DESKTOP LAYOUT (MOBILE UNCHANGED)
-   ============================================= */
-@media (min-width: 1024px) {
-  body {
-    max-width: none;
-    margin: 0;
-  }
-
-  .site {
-    width: 100%;
-    background: var(--bg);
-  }
-
-  .header__inner,
-  .section-inner,
-  .gallery__inner,
-  .prof__content,
-  .process__inner,
-  .services__inner,
-  .reviews__inner,
-  .contact {
-    width: min(1200px, calc(100% - 4rem));
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .header__inner {
-    padding: 1.25rem 2rem;
-  }
-}
