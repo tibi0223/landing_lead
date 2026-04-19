@@ -27,7 +27,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -96,6 +96,7 @@ strong {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
   border: none;
+  margin: 0 auto;
 }
 
 .btn:hover {
@@ -127,6 +128,13 @@ strong {
 
 .btn--full {
   width: 100%;
+}
+
+.btn--large {
+  width: 327px;
+  max-width: 100%;
+  height: 73px;
+  font-size: 24px;
 }
 
 /* =============================================
@@ -620,8 +628,8 @@ strong {
 }
 
 .process__title {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 700;
   color: #fff;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -673,7 +681,7 @@ strong {
 }
 
 .process__step-title {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: 700;
   color: var(--text);
 }
@@ -693,7 +701,8 @@ strong {
 }
 
 .process__checklist li {
-  font-size: 1.05rem;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-muted);
   line-height: 1.5;
   padding-left: 2rem;
@@ -704,6 +713,7 @@ strong {
   content: "✓";
   position: absolute;
   left: 0;
+  top: 0;
   color: var(--gold);
   font-weight: 800;
   font-size: 1.2rem;
@@ -736,8 +746,8 @@ strong {
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   color: var(--text);
-  font-size: 1.05rem;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.5;
   text-align: center;
   display: flex;
@@ -828,7 +838,7 @@ strong {
 }
 
 .installation__pet-title {
-  font-size: 1rem;
+  font-size: 20px;
   font-weight: 700;
   color: var(--gold);
   text-decoration: underline;
@@ -837,7 +847,8 @@ strong {
 }
 
 .installation__pet-desc {
-  font-size: 0.78rem;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-muted);
   line-height: 1.5;
 }
@@ -845,29 +856,32 @@ strong {
 .installation__duration {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 1.5rem;
   color: var(--gold);
+  margin-top: 2rem;
 }
 
 .installation__duration-text {
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
+  gap: 1rem;
 }
 
 .installation__duration-label {
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   color: var(--gold);
 }
 
 .installation__duration-time {
-  font-size: 1.5rem;
+  font-size: 20px;
   font-weight: 700;
   color: var(--gold);
 }
 
 .installation__duration-sub {
-  font-size: 0.75rem;
+  font-size: 11px;
+  font-weight: 400;
   color: var(--gold);
 }
 
@@ -889,7 +903,8 @@ strong {
 }
 
 .handover__list li {
-  font-size: 0.85rem;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text);
   line-height: 1.55;
 }
@@ -1287,16 +1302,17 @@ strong {
 }
 
 .contact__teaser {
-  font-size: 1.25rem;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text);
   text-align: center;
   line-height: 1.5;
+  border: none;
 }
 
 .contact__teaser-accent {
   color: var(--gold);
-  font-size: 1.4rem;
+  font-size: 18px;
 }
 
 .contact__card {
@@ -1423,5 +1439,46 @@ strong {
 
 .contact__gdpr-link:hover {
   border-bottom-color: var(--gold);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.footer {
+  background: #050505;
+  padding: 3rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 4rem;
+}
+
+.footer__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer__legal {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer__links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.footer__link {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
 }
 

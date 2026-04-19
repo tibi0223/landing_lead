@@ -6,7 +6,7 @@
   <title>Hűvös Otthon, Nyugodt Nyár – Professzionális Klímaszerelés</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <!-- Meta Pixel Code -->
 <script>
@@ -47,9 +47,8 @@ src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1"
     <div class="hero__content">
       <h1 class="hero__title">Hűvös Otthon,<br />Nyugodt<br />Nyár</h1>
       <p class="hero__subtitle">Prémium klímatelepítés és karbantartás, kompromisszumok nélkül.</p>
-      <a href="tel:+36702742138" class="btn btn--primary hero__btn-gold">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27 11.36 11.36 0 003.54.56 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.56 3.57a1 1 0 01-.25 1.03l-2.19 2.19z"/></svg>
-        +36 70 274 2138
+      <a href="#contact" class="btn btn--primary btn--large hero__btn-gold">
+        Ingyenes felmérést kérek
       </a>
       <div class="hero__usp">
         <div class="hero__usp-item">
@@ -220,7 +219,7 @@ src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1"
         <div class="process__after-box">küldünk 2–3 különböző árkategóriájú ajánlatot</div>
       </div>
 
-      <p class="process__closing">Így Ön nyugodtan kiválaszthatja a legjobb ár-érték arányú megoldást</p>
+      <p class="process__closing">Így Ön nyugodtan kiválaszthatja a legjobb<br>ár-érték arányú megoldást</p>
     </div>
   </section>
 
@@ -302,7 +301,7 @@ src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1"
 
       <p class="handover__cta-text">Ne várja meg míg beköszönt a kánikula, foglaljon időpontot most egy kattintással!</p>
 
-      <a href="tel:+36702742138" class="btn btn--primary">Ingyenes felmérést kérek</a>
+      <a href="#contact" class="btn btn--primary btn--large">Ingyenes felmérést kérek</a>
 
     </div>
   </section>
@@ -500,7 +499,7 @@ src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1"
       <h2 class="contact__title">Kérjen Ingyenes<br>Árajánlatot!</h2>
       <p class="contact__desc">Töltse ki az alábbi ürlapot, és rövid időn belül felvesszük Önnel a kapcsolatot.</p>
 
-      <form class="contact__form" id="contactForm">
+      <form class="contact__form" id="contactForm" action="contact.php" method="POST">
         <div class="contact__field">
           <label class="contact__label" for="fName">NÉV</label>
           <input class="contact__input" type="text" id="fName" name="name" placeholder="Teljes név" required />
@@ -533,12 +532,25 @@ src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1"
           <label for="fGdpr">Elfogadom az <a href="#" class="contact__gdpr-link">Adatkezelési tájékoztatót</a></label>
         </div>
 
-        <button type="submit" class="btn btn--primary btn--full">Ingyenes Ajánlatot Kérek</button>
+        <button type="submit" class="btn btn--primary btn--large btn--full">Ingyenes felmérést kérek</button>
       </form>
     </div>
   </section>
 
-  <div style="height: 48px;"></div>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__legal">
+        <p>&copy; 2024 Nexus Klíma. Minden jog fenntartva.</p>
+        <p>Adószám: 59883584-1-33 | F-Gáz azonosító: 2000000000000</p>
+        <p>Székhely: 2119 Pécel, Akácfa utca 12.</p>
+        <div class="footer__links">
+          <a href="#" class="footer__link">Adatkezelési tájékoztató</a>
+          <a href="#" class="footer__link">ÁSZF</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/main.js"></script>
   </div>
