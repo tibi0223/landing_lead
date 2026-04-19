@@ -615,6 +615,30 @@ strong {
   opacity: 0.9;
 }
 
+.prof__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.contact__call-btn {
+  display: block;
+  text-align: center;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  transition: opacity 0.2s;
+}
+
+.contact__call-btn:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* =============================================
    HOW WE WORK (PROCESS)
    ============================================= */
