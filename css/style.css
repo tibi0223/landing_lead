@@ -417,7 +417,7 @@ strong {
    ============================================= */
 .gallery {
   position: relative;
-  background: url('../assets/images/Aj%C3%A1nlat.jpg') center top / cover no-repeat;
+  background: url('../assets/images/ajanlat.jpg') center top / cover no-repeat;
 }
 
 .gallery__inner {
