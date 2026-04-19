@@ -9,11 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .privacy-header {
-      padding: 100px 20px 40px;
-      text-align: center;
-      background: linear-gradient(to bottom, #111, #0a0a0a);
-    }
     .privacy-content {
       max-width: 800px;
       margin: 0 auto;
@@ -22,9 +17,10 @@
       line-height: 1.8;
     }
     .privacy-content h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 2rem;
       color: var(--gold);
+      text-align: center;
     }
     .privacy-content h2 {
       font-size: 1.5rem;
@@ -83,20 +79,19 @@
 <body class="dark-mode">
 
   <!-- ===== HEADER ===== -->
-  <header class="header">
+  <header class="header" id="header" style="background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212,175, 55, 0.1);">
     <div class="header__inner">
-      <a href="index.html" class="header__logo">
-        <img src="assets/images/logo.png" alt="Nexus Klíma Logo" />
-      </a>
-      <a href="index.html" class="btn btn--outline btn--sm">Vissza a főoldalra</a>
+      <div class="header__logo">
+        <a href="index.html">
+          <img src="assets/images/logo.png" alt="Nexus Klíma" class="header__logo-img" />
+        </a>
+      </div>
+      <a href="index.html" class="btn btn--gold btn--sm">Vissza a főoldalra</a>
     </div>
   </header>
 
-  <div class="privacy-header">
+  <main class="privacy-content" style="padding-top: 140px;">
     <h1>Adatkezelési Tájékoztató</h1>
-  </div>
-
-  <main class="privacy-content">
     <p><strong>Varró István Péter e.v. – nexusklima.hu</strong></p>
 
     <h2>1. AZ ADATKEZELŐ ADATAI</h2>
