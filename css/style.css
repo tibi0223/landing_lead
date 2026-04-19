@@ -116,8 +116,18 @@ strong {
   box-shadow: 0 4px 16px rgba(227, 28, 37, 0.3);
 }
 
+.btn--gold {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+  color: #000;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+}
+
 .btn--primary:hover {
   box-shadow: 0 8px 24px rgba(227, 28, 37, 0.4);
+}
+
+.btn--gold:hover {
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
 }
 
 .btn--outline {
