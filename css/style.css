@@ -1599,12 +1599,15 @@ strong {
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   margin-bottom: 3rem;
+  text-align: left;
 }
 
 .footer__col {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  text-align: left;
+  align-items: flex-start;
 }
 
 .footer__title {
