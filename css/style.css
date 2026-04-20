@@ -1653,12 +1653,24 @@ strong {
 }
 
 @media (max-width: 480px) {
+  .footer {
+    padding: 3rem 1.5rem 2rem;
+  }
   .footer__grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
   .footer__col {
-    text-align: center;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 1.5rem;
+  }
+  .footer__col:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .footer__title {
+    margin-bottom: 1rem;
   }
 }
 
