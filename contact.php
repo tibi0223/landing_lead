@@ -1,54 +1,126 @@
 <?php
 /**
  * Nexus Klíma - Contact Form Backend
- * Designed for Rackhost / standard PHP servers
+ * Enhanced with CSRF protection, rate limiting, and security features
  */
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect and sanitize input
-    $name    = strip_tags(trim($_POST["name"]));
-    $email   = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    $phone   = strip_tags(trim($_POST["phone"]));
-    $service = isset($_POST["service"]) ? strip_tags(trim($_POST["service"])) : "Nincs megadva";
-    $message = strip_tags(trim($_POST["message"]));
+// Start session for CSRF and rate limiting
+session_start();
 
-    // Validate required fields
-    if (empty($name) || empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Redirect back with error status
-        header("Location: index.html?status=error#contact");
-        exit;
-    }
+// Security headers
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+header("X-XSS-Protection: 1; mode=block");
 
-    // Email configuration
-    $recipient = "info@nexusklima.hu";
-    $subject   = "Webes árajánlat kérés - $name";
-    
-    // Prepare email body
-    $email_body = "Új érdeklődés érkezett a weboldalról:\n\n";
-    $email_body .= "Név: $name\n";
-    $email_body .= "Email: $email\n";
-    $email_body .= "Telefonszám: $phone\n";
-    $email_body .= "Szolgáltatás: $service\n\n";
-    $email_body .= "Üzenet:\n" . ($message ? $message : "Nincs üzenet") . "\n\n";
-    $email_body .= "--\nEz az üzenet automatikusan generálódott a nexus-klima.hu weboldalon.";
-
-    // Headers
-    // Note: Some hosts require the 'From' header to be a valid account on their server.
-    // If mail doesn't arrive, try setting 'From: web@nexus-klima.hu' and 'Reply-To: $email'
-    $headers = "From: $name <$email>\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-    // Send email
-    if (mail($recipient, $subject, $email_body, $headers)) {
-        // Success
-        header("Location: index.html?status=success#contact");
-    } else {
-        // Mail server error
-        header("Location: index.html?status=error#contact");
-    }
-} else {
-    // Not a POST request
-    header("Location: index.html");
+// Generate CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+// Rate limiting: Max 3 submissions per IP per hour
+$ip_address = $_SERVER['REMOTE_ADDR'];
+$rate_limit_key = 'rate_limit_' . md5($ip_address);
+
+if (!isset($_SESSION[$rate_limit_key])) {
+    $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time()];
+}
+
+// Reset rate limit after 1 hour
+if (time() - $_SESSION[$rate_limit_key]['time'] > 3600) {
+    $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time()];
+}
+
+// Check rate limit
+if ($_SESSION[$rate_limit_key]['count'] >= 3) {
+    header("Location: index.html?status=ratelimit#contact");
+    exit;
+}
+
+// Only process POST requests
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header("Location: index.html");
+    exit;
+}
+
+// Validate CSRF token
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    header("Location: index.html?status=error#contact");
+    exit;
+}
+
+// Honeypot check (hidden field)
+if (!empty($_POST['website'])) {
+    // Bot detected, but redirect silently to avoid revealing it's a honeypot
+    header("Location: index.html?status=success#contact");
+    exit;
+}
+
+// Collect and sanitize input
+$name    = htmlspecialchars(strip_tags(trim($_POST["name"])), ENT_QUOTES, 'UTF-8');
+$email   = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+$phone   = htmlspecialchars(strip_tags(trim($_POST["phone"] ?? "")), ENT_QUOTES, 'UTF-8');
+$service = isset($_POST["service"]) ? htmlspecialchars(strip_tags(trim($_POST["service"])), ENT_QUOTES, 'UTF-8') : "Nincs megadva";
+$message = htmlspecialchars(strip_tags(trim($_POST["message"] ?? "")), ENT_QUOTES, 'UTF-8');
+
+// Enhanced validation
+$errors = [];
+
+if (empty($name) || strlen($name) < 2 || strlen($name) > 100) {
+    $errors[] = "name";
+}
+
+if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 254) {
+    $errors[] = "email";
+}
+
+// Phone validation (Hungarian format)
+if (!empty($phone)) {
+    $phone_clean = preg_replace('/[^0-9+]/', '', $phone);
+    if (strlen($phone_clean) < 9 || strlen($phone_clean) > 15) {
+        $errors[] = "phone";
+    }
+}
+
+if (!empty($errors)) {
+    header("Location: index.html?status=error&fields=" . implode(',', $errors) . "#contact");
+    exit;
+}
+
+// Increment rate limit counter
+$_SESSION[$rate_limit_key]['count']++;
+
+// Email configuration
+$recipient = "info@nexusklima.hu";
+$subject   = "=?UTF-8?B?" . base64_encode("Webes árajánlat kérés - " . $name) . "?=";
+
+// Prepare email body
+$email_body = "Új érdeklődés érkezett a weboldalról:\n\n";
+$email_body .= "Név: " . $name . "\n";
+$email_body .= "Email: " . $email . "\n";
+$email_body .= "Telefonszám: " . ($phone ? $phone : "Nincs megadva") . "\n";
+$email_body .= "Szolgáltatás: " . $service . "\n\n";
+$email_body .= "Üzenet:\n" . ($message ? $message : "Nincs üzenet") . "\n\n";
+$email_body .= "---\n";
+$email_body .= "IP cím: " . $ip_address . "\n";
+$email_body .= "Időpont: " . date('Y-m-d H:i:s') . "\n";
+$email_body .= "User-Agent: " . substr($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown', 0, 200) . "\n";
+$email_body .= "--\nEz az üzenet automatikusan generálódott a nexus-klima.hu weboldalon.";
+
+// Headers with proper encoding
+$headers = "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$headers .= "From: Nexus Klíma <web@nexusklima.hu>\r\n";
+$headers .= "Reply-To: " . $name . " <" . $email . ">\r\n";
+$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+
+// Send email
+if (mail($recipient, $subject, $email_body, $headers)) {
+    // Regenerate CSRF token after successful submission
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    header("Location: index.html?status=success#contact");
+} else {
+    header("Location: index.html?status=error#contact");
+}
+exit;
 ?>
