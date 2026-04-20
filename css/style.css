@@ -1204,23 +1204,33 @@ strong {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  padding: 1.75rem 0;
-  background: var(--bg);
+  padding: 2.5rem 0;
+  background: #ffffff;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .partners__track {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 4rem;
   width: max-content;
-  animation: marquee 22s linear infinite;
+  animation: marquee 30s linear infinite;
 }
 
 .partners__track img {
-  height: 2.25rem;
-  width: auto;
+  width: 140px;
+  height: 40px;
+  margin: 0 20px;
   object-fit: contain;
   flex-shrink: 0;
+  filter: grayscale(0.2);
+  transition: all 0.3s ease;
+}
+
+.partners__track img:hover {
+  filter: grayscale(0);
+  transform: scale(1.15);
 }
 
 @keyframes marquee {
