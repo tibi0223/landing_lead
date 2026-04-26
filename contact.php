@@ -56,7 +56,7 @@ if (time() - $_SESSION[$rate_limit_key]['time'] > 3600) {
 
 // Check rate limit
 if ($_SESSION[$rate_limit_key]['count'] >= 10) {
-    sendResponse('error', 'Túl sok kísérlet. Kérjük próbálja meg később.', 'ratelimit');
+    sendResponse('error', 'Túl sok kísérlet. Próbáld meg később.', 'ratelimit');
 }
 
 // Only process POST requests
@@ -71,7 +71,7 @@ if (!empty($_POST['website'])) {
 
 // Validate CSRF token when the rendered page provides one.
 if (!empty($_POST['csrf_token']) && !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    sendResponse('error', 'Biztonsági ellenőrzés sikertelen. Kérjük frissítse az oldalt.', 'csrf');
+    sendResponse('error', 'Biztonsági ellenőrzés sikertelen. Frissítsd az oldalt.', 'csrf');
 }
 
 // Collect and sanitize input
@@ -79,10 +79,13 @@ $name        = cleanInput($_POST["name"] ?? "");
 $email       = filter_var(trim($_POST["email"] ?? ""), FILTER_SANITIZE_EMAIL);
 $phone       = cleanInput($_POST["phone"] ?? "");
 $postcode    = cleanInput($_POST["postcode"] ?? "");
+$serviceArea = cleanInput($_POST["service_area"] ?? "");
 $service     = cleanInput($_POST["service"] ?? "");
 $property    = cleanInput($_POST["property"] ?? "");
 $size        = cleanInput($_POST["size"] ?? "");
 $goal        = cleanInput($_POST["goal"] ?? "");
+$acDevice    = cleanInput($_POST["ac_device"] ?? "");
+$acPrice     = cleanInput($_POST["ac_price"] ?? "");
 $price_range = cleanInput($_POST["price_range"] ?? "");
 $message     = cleanInput($_POST["message"] ?? "");
 
@@ -94,7 +97,7 @@ if (empty($phone) || strlen(preg_replace('/[^\d+]/', '', $phone)) < 8) $errors[]
 if (!empty($postcode) && !preg_match('/^\d{4}$/', $postcode)) $errors[] = "postcode";
 
 if (!empty($errors)) {
-    sendResponse('error', 'Kérjük töltsön ki minden kötelező mezőt.', 'validation', $errors);
+    sendResponse('error', 'Tölts ki minden kötelező mezőt.', 'validation', $errors);
 }
 
 // Increment rate limit counter
@@ -110,13 +113,15 @@ $email_body .= "--- ÜGYFÉL ADATOK ---\n";
 $email_body .= "Név: " . $name . "\n";
 $email_body .= "Email: " . $email . "\n";
 $email_body .= "Telefonszám: " . $phone . "\n";
-$email_body .= "Irányítószám: " . $postcode . "\n\n";
+$email_body .= "Irányítószám: " . $postcode . "\n";
+$email_body .= "Szolgáltatási terület: " . $serviceArea . "\n\n";
 
 $email_body .= "--- IGÉNYEK ---\n";
 $email_body .= "Szolgáltatás: " . $service . "\n";
 $email_body .= "Ingatlan típusa: " . $property . "\n";
 $email_body .= "Alapterület: " . $size . "\n";
-$email_body .= "Fő cél: " . $goal . "\n";
+$email_body .= "Készülék kategória: " . ($acDevice ?: $goal) . "\n";
+$email_body .= "Készülék minimum ára: " . ($acPrice !== '' ? $acPrice . " Ft-tól" : "kalkulátor szerint") . "\n";
 $email_body .= "Becsült árkalkuláció: " . $price_range . "\n\n";
 
 if ($message) {
@@ -136,7 +141,7 @@ $headers .= "Reply-To: " . cleanHeaderValue($name) . " <" . cleanHeaderValue($em
 
 // Handle attachment if photo exists
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE && $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
-    sendResponse('error', 'Hiba történt a fotó feltöltése közben. Kérjük próbálja újra.', 'upload');
+    sendResponse('error', 'Hiba történt a fotó feltöltése közben. Próbáld újra.', 'upload');
 }
 
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] == UPLOAD_ERR_OK) {

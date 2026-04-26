@@ -4,13 +4,14 @@
  */
 
 const CACHE_NAME = 'nexus-klima-v1';
+/* Paths relative to this script (works at site root or in a subdirectory). */
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/main.js',
-  '/assets/images/logo.png',
-  '/assets/images/Hero_secion.jpg'
+  'index.html',
+  'css/style.css',
+  'css/qualifier-compat.css',
+  'js/main.js',
+  'assets/images/logo.png',
+  'assets/images/Hero_secion.jpg'
 ];
 
 // Install event - cache static assets

@@ -1,15 +1,18 @@
-<?php 
-session_start(); 
-if (empty($_SESSION['csrf_token'])) { 
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
-} 
+<?php
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$hostLower = strtolower($_SERVER['HTTP_HOST'] ?? '');
+$analyticsHosts = ['nexus-klima.hu', 'www.nexus-klima.hu', 'nexusklima.hu', 'www.nexusklima.hu'];
+$enablePublicAnalytics = in_array($hostLower, $analyticsHosts, true);
 ?>
 <!DOCTYPE html>
 <html lang="hu">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Professzionális klímaszerelés és karbantartás Budapesten és környékén. Ingyenes helyszíni felmérés, garancia, rejtett költségek nélkül. Hívjon most: +36 70 274 2138" />
   <meta name="keywords"
@@ -22,7 +25,8 @@ if (empty($_SESSION['csrf_token'])) {
   <meta name="geo.position" content="47.4813;19.3416" />
   <meta name="ICBM" content="47.4813, 19.3416" />
 
-  <!-- Cookiebot (Sütikezelő) -->
+  <?php if ($enablePublicAnalytics): ?>
+  <!-- Cookiebot (Sütikezelő) — only on production host -->
   <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="3a0544f4-7912-4863-a527-a80dc1dd3b8c"
     data-blockingmode="auto" type="text/javascript"></script>
 
@@ -44,6 +48,7 @@ if (empty($_SESSION['csrf_token'])) {
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "wg67j0ug7y");
   </script>
+  <?php endif; ?>
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://nexus-klima.hu/" />
@@ -76,7 +81,7 @@ if (empty($_SESSION['csrf_token'])) {
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
-  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/style.css?v=10" />
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
   {
@@ -132,7 +137,7 @@ if (empty($_SESSION['csrf_token'])) {
           "itemOffered": {
             "@type": "Service",
             "name": "Klímatelepítés",
-            "description": "Professzionális klíma telepítés 90 000 Ft + ÁFA-tól"
+            "description": "Professzionális klíma telepítés 90 000 Ft + ÁFA"
           }
         },
         {
@@ -194,6 +199,7 @@ if (empty($_SESSION['csrf_token'])) {
   }
   </script>
 
+  <?php if ($enablePublicAnalytics): ?>
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -213,32 +219,9 @@ if (empty($_SESSION['csrf_token'])) {
   <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=263438605996534&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
+  <?php endif; ?>
 
-  <!-- Lead Qualifier Integration -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: '#c13129',
-            'brand-dark': '#9e2520',
-            'brand-light': '#e03c33',
-            gold: '#d4af37',
-            'gold-light': '#f5d061',
-            surface: '#1a1a1a',
-            'surface-2': '#222222',
-            'surface-3': '#2a2a2a',
-            border: '#333333',
-          },
-          fontFamily: {
-            heading: ['Montserrat', 'sans-serif'],
-            body: ['DM Sans', 'sans-serif'],
-          },
-        }
-      }
-    };
-  </script>
+  <link rel="stylesheet" href="css/qualifier-compat.css?v=1" />
   <style>
     :root {
       --brand: #e31c25;
@@ -709,6 +692,36 @@ if (empty($_SESSION['csrf_token'])) {
       display: block;
     }
 
+    .service-area-note {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 107, 107, 0.28);
+      background: rgba(255, 107, 107, 0.08);
+      color: #ffb4b4;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .service-area-note.show {
+      display: block;
+    }
+
+    .service-price {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 4px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
     .file-drop {
       border: 2px dashed rgba(212, 175, 55, 0.2); border-radius: 20px;
       padding: 40px 24px; text-align: center; cursor: pointer;
@@ -742,6 +755,29 @@ if (empty($_SESSION['csrf_token'])) {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 0, 0, 0.2));
       border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px;
       padding: 24px; margin-bottom: 24px; position: relative; overflow: hidden;
+    }
+
+    .quote-box__note {
+      color: #9a9a9a;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.45;
+      margin: 10px 0 0;
+    }
+
+    .quote-breakdown {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cfcfcf;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .quote-breakdown.show {
+      display: block;
     }
 
     .summary-row {
@@ -1069,6 +1105,357 @@ if (empty($_SESSION['csrf_token'])) {
         margin-top: 18px;
       }
     }
+
+    /* ─── Calculator: Product Grid ─────────────────────────── */
+    .product-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 340px;
+        overflow-y: auto;
+        padding-right: 4px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--surface-3) transparent;
+    }
+    .product-grid::-webkit-scrollbar { width: 4px; }
+    .product-grid::-webkit-scrollbar-track { background: transparent; }
+    .product-grid::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 99px; }
+    .product-card {
+        background: var(--surface-2);
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+    .product-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 30% 40%, rgba(193, 49, 41, 0.12) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    .product-card:hover { border-color: #555; transform: translateY(-1px); }
+    .product-card:hover::before { opacity: 1; }
+    .product-card.selected {
+        border-color: var(--brand);
+        background: rgba(193, 49, 41, 0.1);
+        box-shadow: 0 0 0 1px var(--brand), 0 4px 20px var(--brand-glow);
+    }
+    .product-card.selected::before { opacity: 1; }
+    .product-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    .product-name {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: #eee;
+        line-height: 1.3;
+        flex: 1;
+    }
+    .product-price {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        color: #fff;
+        white-space: nowrap;
+    }
+    .product-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .product-tag {
+        font-size: 10px;
+        font-weight: 600;
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 99px;
+        background: rgba(193, 49, 41, 0.15);
+        color: var(--brand-light);
+    }
+    .product-features {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .product-check {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--brand);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .product-card.selected .product-check { opacity: 1; transform: scale(1); }
+    .product-check svg { width: 11px; height: 11px; stroke: white; stroke-width: 2.5; fill: none; }
+    .product-filter-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+    }
+    .product-loading { text-align: center; padding: 30px 0; font-size: 14px; color: var(--muted); }
+    .skip-link {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .skip-link:hover { color: #aaa; }
+
+    /* ─── Calculator: Pipe Length ──────────────────────────── */
+    .pipe-calc-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface-2);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+    }
+    .pipe-calc-row .input-field {
+        width: 80px;
+        flex-shrink: 0;
+        text-align: center;
+        padding: 10px 8px;
+        margin-bottom: 0;
+    }
+    .pipe-calc-label { font-size: 14px; color: #ccc; }
+    .pipe-calc-result {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        color: #fff;
+        margin-left: auto;
+        white-space: nowrap;
+    }
+
+    /* ─── Calculator: Itemized Quote ───────────────────────── */
+    .itemized-quote { margin-bottom: 16px; }
+    .quote-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 13px;
+    }
+    .quote-item:last-child { border-bottom: none; }
+    .quote-item-key { color: var(--muted); }
+    .quote-item-val {
+        font-weight: 600;
+        color: #e0e0e0;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .quote-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        font-size: 14px;
+    }
+    .quote-total-row.netto { padding-top: 10px; border-top: 2px solid var(--border); }
+    .quote-total-key { color: var(--muted); }
+    .quote-total-val { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+    .quote-total-row.brutto .quote-total-val { color: #fff; font-weight: 900; font-size: 20px; }
+
+    /* ─── Calculator: Buttons ───────────────────────────────── */
+    .btn-primary {
+        width: 100%;
+        background: linear-gradient(135deg, var(--brand), #e8453c);
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin-top: 24px;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 20px rgba(193, 49, 41, 0.35);
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(193, 49, 41, 0.45); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 0;
+        margin-bottom: 20px;
+        transition: color 0.15s;
+    }
+    .btn-back:hover { color: #ccc; }
+    .btn-back svg { width: 16px; height: 16px; }
+
+    /* ─── Calculator: Quote box ─────────────────────────────── */
+    .quote-box {
+        background: linear-gradient(135deg, rgba(193, 49, 41, 0.15), rgba(193, 49, 41, 0.05));
+        border: 1px solid rgba(193, 49, 41, 0.4);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .quote-box::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(193, 49, 41, 0.3) 0%, transparent 70%);
+    }
+    .quote-label {
+        font-size: 12px;
+        color: var(--muted);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+    .quote-price {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        font-size: 28px;
+        color: #fff;
+        line-height: 1;
+    }
+    .quote-price span { font-size: 16px; font-weight: 500; color: #bbb; }
+    .quote-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+    /* ─── Calculator: Success screen ────────────────────────── */
+    .success-screen { text-align: center; padding: 20px 0; }
+    .success-icon {
+        width: 72px;
+        height: 72px;
+        background: rgba(193, 49, 41, 0.15);
+        border: 2px solid var(--brand);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(193, 49, 41, 0.4); }
+        50% { box-shadow: 0 0 0 12px rgba(193, 49, 41, 0); }
+    }
+    .success-icon svg { width: 36px; height: 36px; stroke: var(--brand); fill: none; stroke-width: 2.5; }
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 14px;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-key { color: var(--muted); }
+    .summary-val {
+        font-weight: 600;
+        color: #e0e0e0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+    }
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+    .trust-badges {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+    }
+    .trust-badge svg {
+        width: 14px;
+        height: 14px;
+        stroke: var(--brand);
+        fill: none;
+        stroke-width: 2;
+        flex-shrink: 0;
+    }
+    .input-group { display: flex; flex-direction: column; gap: 10px; }
+    .input-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #bbb;
+        font-family: 'Montserrat', sans-serif;
+        margin-bottom: 4px;
+    }
+    .error-msg {
+        font-size: 12px;
+        color: #e05555;
+        display: none;
+        margin-top: 4px;
+    }
+    .loader-wrap { display: none; text-align: center; padding: 30px 0; }
+    .loader-wrap.show { display: block; }
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--border);
+        border-top-color: var(--brand);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hint-box {
+        background: rgba(255, 255, 255, 0.04);
+        border-left: 3px solid var(--brand);
+        border-radius: 0 8px 8px 0;
+        padding: 10px 14px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #bbb;
+        line-height: 1.5;
+    }
   </style>
 </head>
 
@@ -1084,13 +1471,20 @@ if (empty($_SESSION['csrf_token'])) {
             <img src="assets/images/logo.png" alt="Nexus Klíma" class="header__logo-img" />
           </a>
         </div>
+        <nav class="header__nav" aria-label="Ugrás a fő szakaszokhoz">
+          <a href="#services" class="header__nav-link">Szolgáltatások</a>
+          <a href="#process" class="header__nav-link">Folyamat</a>
+          <a href="#reviews" class="header__nav-link">Vélemények</a>
+          <a href="#contact" class="header__nav-link header__nav-link--cta">Ajánlatkérés</a>
+        </nav>
       </div>
     </header>
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
       <div class="hero__bg">
-        <img src="assets/images/Hero_secion.jpg" alt="" class="hero__bg-img" />
+        <img src="assets/images/Hero_secion.jpg" alt="" class="hero__bg-img" width="1920" height="1080"
+          fetchpriority="high" decoding="async" />
         <div class="hero__overlay"></div>
       </div>
       <div class="hero__content">
@@ -1129,6 +1523,7 @@ if (empty($_SESSION['csrf_token'])) {
             </svg>
             <span>+36 70 274 2138</span>
           </a>
+          <a href="#contact" class="btn btn--outline btn--large hero__cta-secondary">Ingyenes árajánlatkérés</a>
         </div>
       </div>
     </section>
@@ -1181,21 +1576,25 @@ if (empty($_SESSION['csrf_token'])) {
     <!-- ===== GALLERY ===== -->
     <section class="gallery" id="gallery">
       <div class="gallery__inner">
+        <p class="gallery__intro">
+          <span class="gallery__intro-title">Valós munkák</span>
+          <span class="gallery__intro-text">Nálunk így néz ki a precíz csövezés, a kültéri elhelyezés és a több beltéri egység egy rendszerben.</span>
+        </p>
         <div class="gallery__grid">
           <div class="gallery__photo">
-            <img src="assets/images/ref1.png?v=2024" alt="Klíma szerelés 1" loading="lazy" />
+            <img src="assets/images/ref1.png?v=2024" alt="Klíma szerelés 1" loading="lazy" width="800" height="600" />
             <div class="gallery__caption">Esztétikus csövezés és falba süllyesztés</div>
           </div>
           <div class="gallery__photo">
-            <img src="assets/images/ref2.png?v=2024" alt="Klíma szerelés 3" loading="lazy" />
+            <img src="assets/images/ref2.png?v=2024" alt="Klíma szerelés 3" loading="lazy" width="800" height="600" />
             <div class="gallery__caption">Kültéri egység szakszerű telepítése</div>
           </div>
           <div class="gallery__photo">
-            <img src="assets/images/ref3.jpg?v=2024" alt="Klíma szerelés 2" loading="lazy" />
+            <img src="assets/images/ref3.jpg?v=2024" alt="Klíma szerelés 2" loading="lazy" width="800" height="600" />
             <div class="gallery__caption">Tiszta, pormentes beltéri szerelés</div>
           </div>
           <div class="gallery__photo">
-            <img src="assets/images/ref4.png?v=2024" alt="Klíma szerelés 4" loading="lazy" />
+            <img src="assets/images/ref4.png?v=2024" alt="Klíma szerelés 4" loading="lazy" width="800" height="600" />
             <div class="gallery__caption">Több gépes (Multi) rendszerek kiépítése</div>
           </div>
         </div>
@@ -1285,6 +1684,7 @@ if (empty($_SESSION['csrf_token'])) {
     <section class="process" id="process">
       <div class="process__inner">
         <h2 class="process__title">Nézd meg,<br />hogyan dolgozunk!</h2>
+        <p class="process__kicker">Három lépésben: felmérés → telepítés → átadás</p>
         <p class="process__desc">Nem kell találgatnod, milyen klíma lenne ideális az otthonodba. Szakembereink <span
             class="process__highlight">ingyenesen</span> kimennek hozzád, és minden részletet felmérnek a tökéletes
           megoldás érdekében.</p>
@@ -1331,6 +1731,7 @@ if (empty($_SESSION['csrf_token'])) {
         <h3 class="process__step-title">Klímatelepítés</h3>
 
         <p class="installation__subtitle">P.E.T. -folyamat szerint</p>
+        <p class="installation__lead">Precíz szerelés, letisztult megjelenés és takarított helyszín — a P.E.T. három pillére.</p>
 
         <div class="installation__quote">
           Előzetes időpont-egyeztetést követően szerelőink pontosan megérkeznek a helyszínre, hogy neked ne kelljen
@@ -1417,6 +1818,7 @@ if (empty($_SESSION['csrf_token'])) {
     <section class="services" id="services">
       <div class="services__inner">
         <h2 class="services__title">Szolgáltatásaink<br>és Áraink</h2>
+        <p class="services__swipe-hint" aria-hidden="true">Lapozzon oldalra a kártyák között</p>
 
         <div class="services__carousel" id="servicesCarousel">
 
@@ -1505,7 +1907,7 @@ if (empty($_SESSION['csrf_token'])) {
         </div>
       </div>
 
-      <div class="reviews__inner">
+      <div class="reviews__inner" id="reviews">
         <div class="reviews__header">
           <h2 class="reviews__title">Mit mondanak rólunk?</h2>
           <div class="reviews__meta">
@@ -1616,292 +2018,407 @@ if (empty($_SESSION['csrf_token'])) {
     <!-- ===== CONTACT (Lead Qualifier) ===== -->
     <section class="contact qualifier-section" id="contact">
       <div class="qualifier-shell">
+
+        <!-- Intro -->
         <div class="qualifier-intro">
-          <span class="qualifier-kicker">Gyors ajánlatkérés</span>
-          <h2 class="qualifier-title">Klímaajánlat, ami nem csak <span>tippel</span>.</h2>
-          <p class="qualifier-lead">Pár kérdés alapján előzetes árkeretet mutatunk, majd szakember nézi át az igényét. Ha fotót is feltölt, pontosabban tudunk készüléket és szerelési megoldást javasolni.</p>
+          <div class="qualifier-kicker">Árajánlat kalkulátor</div>
+          <h2 class="qualifier-title">Klímaajánlat,<br>ami nem csak <span>tippel.</span></h2>
+          <p class="qualifier-lead">
+            Válaszolj néhány kérdésre, és perc alatt megkapod a becsült árat.
+          </p>
           <div class="qualifier-proof">
             <div class="qualifier-proof__item">
-              <span class="qualifier-proof__value">2 perc</span>
-              <span class="qualifier-proof__label">kitöltési idő</span>
+              <span class="qualifier-proof__value">500+</span>
+              <span class="qualifier-proof__label">Elégedett ügyfél</span>
             </div>
             <div class="qualifier-proof__item">
-              <span class="qualifier-proof__value">24 órán</span>
-              <span class="qualifier-proof__label">belüli visszahívás</span>
+              <span class="qualifier-proof__value">5.0</span>
+              <span class="qualifier-proof__label">Google értékelés</span>
             </div>
             <div class="qualifier-proof__item">
-              <span class="qualifier-proof__value">0 Ft</span>
-              <span class="qualifier-proof__label">rejtett ajánlatkérési díj</span>
+              <span class="qualifier-proof__value">24 óra</span>
+              <span class="qualifier-proof__label">Válaszidő</span>
             </div>
           </div>
         </div>
 
-        <!-- Lead Qualifier Stepper -->
+        <!-- Card -->
         <div class="qualifier-card" id="mainCard">
-        <input type="hidden" id="csrfToken" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-        <input type="text" id="websiteField" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
 
-        <!-- Progress Bar -->
-        <div class="qualifier-progress" id="progressWrap">
-          <div class="qualifier-progress__top">
-            <div>
-              <span class="qualifier-progress__eyebrow">Folyamat</span>
-              <span class="qualifier-progress__label" id="stepLabel">Irányítószám</span>
-            </div>
-            <span class="qualifier-progress__count" id="stepCount">1 / 7</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="progressFill" style="width:14.28%"></div>
-          </div>
-        </div>
-
-        <!-- STEP 1: Postcode -->
-        <div class="step active" id="step-1">
-          <h2 class="text-2xl font-bold text-white mb-3 leading-tight">Kezdjük a legfontosabbal: <br>Hol van szükség a klímára? 📍</h2>
-          <p class="text-sm text-gray-400 mb-8">Adja meg az irányítószámát, hogy ellenőrizhessük a lefedettséget és a kiszállási feltételeket.</p>
-          <div class="hint-box">
-            <strong>Ingyenes kiszállás</strong> Budapest teljes területén és a 30 km-es vonzáskörzetében.
-          </div>
-          <div class="relative">
-            <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Irányítószám</label>
-            <input class="input-field" id="postcodeInput" type="tel" inputmode="numeric" maxlength="4" placeholder="pl. 1083" autocomplete="postal-code" />
-            <div class="field-error" id="postcodeError">Kérjük, adjon meg érvényes 4 jegyű irányítószámot.</div>
-          </div>
-          <button class="btn btn--gold btn--full mt-8" onclick="validatePostcode()">Következő lépés →</button>
-        </div>
-
-        <!-- STEP 2: Service Type -->
-        <div class="step" id="step-2">
-          <button class="qualifier-back" onclick="goBack(1)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-2">Miben segíthetünk Önnek ma? 🔧</h2>
-          <p class="text-sm text-gray-400 mb-8">Válassza ki az Ön igényeinek megfelelő szolgáltatást.</p>
-          <div class="grid gap-3">
-            <div class="choice-card" onclick="selectChoice('service','Beszerelés',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🔨</div>
-              <div class="font-bold text-white text-base">Klímatelepítés</div>
-              <div class="text-xs text-gray-500">Új készülék beszerelése garanciával</div>
-            </div>
-            <div class="choice-card" onclick="selectChoice('service','Karbantartás',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🛠️</div>
-              <div class="font-bold text-white text-base">Karbantartás</div>
-              <div class="text-xs text-gray-500">Éves tisztítás és fertőtlenítés</div>
-            </div>
-            <div class="choice-card" onclick="selectChoice('service','Javítás',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">⚙️</div>
-              <div class="font-bold text-white text-base">Hibajavítás</div>
-              <div class="text-xs text-gray-500">Meghibásodott egységek szervizelése</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 3: Property Type -->
-        <div class="step" id="step-3">
-          <button class="qualifier-back" onclick="goBack(2)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-2">Milyen típusú ingatlanban gondolkodik? 🏠</h2>
-          <p class="text-sm text-gray-400 mb-8">Az épület típusa befolyásolja a telepítési technológiát.</p>
-          <div class="grid grid-cols-3 gap-3">
-            <div class="choice-card items-center text-center py-6" onclick="selectChoice('property','Panel',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-3xl mb-2">🏢</div>
-              <div class="font-bold text-white text-sm">Panel</div>
-              <div class="text-xs text-gray-500">Panellakás</div>
-            </div>
-            <div class="choice-card items-center text-center py-6" onclick="selectChoice('property','Tégla',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-3xl mb-2">🧱</div>
-              <div class="font-bold text-white text-sm">Tégla</div>
-              <div class="text-xs text-gray-500">Lakás vagy ház</div>
-            </div>
-            <div class="choice-card items-center text-center py-6" onclick="selectChoice('property','Ház',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-3xl mb-2">🏡</div>
-              <div class="font-bold text-white text-sm">Ház</div>
-              <div class="text-xs text-gray-500">Családi ház</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 4: Size -->
-        <div class="step" id="step-4">
-          <button class="qualifier-back" onclick="goBack(3)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-2">Mekkora a hűteni vagy fűteni kívánt tér? 📐</h2>
-          <p class="text-sm text-gray-400 mb-6">Elég egy közelítő érték. A pontos teljesítményt a felmérésen véglegesítjük.</p>
-          <div class="grid grid-cols-2 gap-3 mt-6">
-            <div class="choice-card items-center text-center" onclick="selectChoice('size','20m² alatt',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🏠</div>
-              <div class="font-bold text-white text-sm">Kis szoba</div>
-              <div class="text-xs text-gray-500">20 m² alatt</div>
-            </div>
-            <div class="choice-card items-center text-center" onclick="selectChoice('size','20–35m²',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🛋️</div>
-              <div class="font-bold text-white text-sm">Közepes szoba</div>
-              <div class="text-xs text-gray-500">20 – 35 m²</div>
-            </div>
-            <div class="choice-card items-center text-center" onclick="selectChoice('size','35–50m²',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🪑</div>
-              <div class="font-bold text-white text-sm">Nagy szoba</div>
-              <div class="text-xs text-gray-500">35 – 50 m²</div>
-            </div>
-            <div class="choice-card items-center text-center" onclick="selectChoice('size','50m²+',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="text-2xl mb-1">🏛️</div>
-              <div class="font-bold text-white text-sm">Nagyon nagy</div>
-              <div class="text-xs text-gray-500">50 m² felett</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 5: Goal -->
-        <div class="step" id="step-5">
-          <button class="qualifier-back" onclick="goBack(4)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-2">Mi az Ön elsődleges célja a klímával? ❄️</h2>
-          <p class="text-sm text-gray-400 mb-6">Ez segít a megfelelő teljesítményű és fogyasztású készülék kiválasztásában.</p>
-          <div class="grid gap-3 mt-6">
-            <div class="choice-card" onclick="selectChoice('goal','Csak hűtés',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="flex items-center gap-4">
-                <div class="text-2xl">❄️</div>
-                <div>
-                  <div class="font-bold text-white text-base">Csak hűtés</div>
-                  <div class="text-xs text-gray-500">Hatékony hűtés a nyári napokra</div>
-                </div>
-              </div>
-            </div>
-            <div class="choice-card" onclick="selectChoice('goal','Hűtés & Fűtés',this)">
-              <div class="check-badge"><svg viewBox="0 0 24 24" class="w-3.5 h-3.5 stroke-black fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg></div>
-              <div class="flex items-center gap-4">
-                <div class="text-2xl">🔥</div>
-                <div>
-                  <div class="font-bold text-white text-base">Hűtés és Fűtés</div>
-                  <div class="text-xs text-gray-500">Egész éves komfort (H-tarifa képes)</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 6: Photo -->
-        <div class="step" id="step-6">
-          <button class="qualifier-back" onclick="goBack(5)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-3">Segítsen nekünk egy fotóval a pontosabb tervezéshez! 📸</h2>
-          <p class="text-sm text-gray-400 mb-6">Egy jól látható kép a tervezett helyről rengeteget segít a pontos árajánlatban.</p>
-          <div class="hint-box">
-            <strong>Tipp:</strong> fotózza le a beltéri egység tervezett falát és, ha lehet, a kültéri egység helyét is.
-          </div>
-
-          <div class="file-drop group" id="fileDrop">
-            <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handleFileSelect(this)" />
-            <div class="text-4xl mb-3 transition-transform group-hover:scale-110">📸</div>
-            <div class="text-sm font-bold text-white mb-1">Kattintson a feltöltéshez</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-widest">vagy húzza ide a képet · JPG/PNG · max. 10 MB</div>
-          </div>
-
-          <div id="filePreview" class="mt-6 hidden">
-            <div class="relative inline-block mx-auto">
-              <img id="previewImg" class="rounded-xl max-h-48 border-2 border-gold/30 shadow-2xl" />
-              <div class="absolute -top-2 -right-2 bg-gold text-black rounded-full p-1 shadow-lg">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-              </div>
-            </div>
-            <div class="file-preview-name" id="previewName"></div>
-          </div>
-
-          <button class="btn btn--gold btn--full mt-8" onclick="goToStep(7)">Folytatás kalkulációhoz →</button>
-          <button class="qualifier-skip" onclick="goToStep(7)">Kihagyom ezt a lépést</button>
-        </div>
-
-        <!-- STEP 7: Final -->
-        <div class="step" id="step-7">
-          <button class="qualifier-back" onclick="goBack(6)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg> Vissza
-          </button>
-          <h2 class="text-2xl font-bold text-white mb-2">Elkészült az Ön személyre szabott kalkulációja! 💰</h2>
-          <p class="text-sm text-gray-400 mb-8">Az adatai alapján ez a várható árkeret. A végleges ajánlatot szakember pontosítja.</p>
-
-          <div class="quote-box">
-            <div class="text-[10px] uppercase tracking-[3px] text-gold font-black mb-2">Becsült beruházási összeg</div>
-            <div class="text-3xl md:text-4xl font-black text-white" id="quotePrice">— Ft</div>
-            <p class="text-[10px] text-gray-500 mt-3 font-medium">A végső ár a helyszíni felmérés és a választott készülék típusa után válik véglegessé.</p>
-          </div>
-
-          <div id="summaryRows" class="mb-8 bg-black/20 rounded-xl p-2"></div>
-          <div class="qualifier-note mb-6">
-            Adja meg elérhetőségeit, és visszahívjuk a pontos árajánlattal. Nem automata ajánlatot küldünk: valódi szerelő nézi át az igényét.
-          </div>
-
-          <div class="space-y-4">
-            <div>
-              <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1.5 block ml-1">Teljes név *</label>
-              <input class="input-field" id="nameInput" type="text" placeholder="pl. Kovács János" autocomplete="name" />
-              <div class="field-error" id="nameError">Kérjük, adja meg a nevét.</div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Progress Bar -->
+          <div class="qualifier-progress" id="progressWrap">
+            <div class="qualifier-progress__top">
               <div>
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1.5 block ml-1">E-mail cím *</label>
-                <input class="input-field" id="emailInput" type="email" placeholder="pelda@email.hu" autocomplete="email" />
+                <span class="qualifier-progress__eyebrow">Árajánlat</span>
+                <span class="qualifier-progress__label" id="stepLabel">Irányítószám</span>
+              </div>
+              <span class="qualifier-progress__count" id="stepCount">1 / 9. lépés</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progressFill" style="width:14.28%"></div>
+            </div>
+          </div>
+
+          <!-- STEP 1: Postcode -->
+          <div class="step active" id="step-1">
+            <h2>Hol szeretné a beszerelést? 📍</h2>
+            <p>Adja meg az irányítószámát, hogy ellenőrizhessük a lefedettséget.</p>
+
+            <div class="hint-box">
+              <strong>Ingyenes kiszállás</strong> egész Budapest területén és 30 km-es körzetben.
+            </div>
+
+            <label>Irányítószám</label>
+            <input class="input-field" id="postcodeInput" type="tel" inputmode="numeric" maxlength="4"
+              placeholder="pl. 1051" autocomplete="postal-code" />
+            <div class="field-error" id="postcodeError">Kérjük, adjon meg érvényes 4 jegyű irányítószámot.</div>
+            <div class="service-area-note" id="serviceAreaNote">Jelenleg csak Budapest és 30 km-es körzete számára tudunk szolgáltatást nyújtani. Kollégáink rögzítik kérését.</div>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="validatePostcode()">Tovább →</button>
+          </div>
+
+          <!-- STEP 2: Service Type (mapped to page naming) -->
+          <div class="step" id="step-2">
+            <button class="qualifier-back" onclick="goBack(1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Milyen szolgáltatást keres? 🔧</h2>
+            <p>Válassza ki az Ön igényeihez legjobban illő opciót.</p>
+            <div class="grid" id="serviceChoices">
+              <div class="choice-card items-center" onclick="selectChoice('service','Klímatelepítés',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;">🔨</div>
+                <div><span class="font-bold">Klímatelepítés</span><br><span class="text-xs">Új klíma felszerelése</span></div>
+                <span class="service-price">90 000 Ft + ÁFA-tól</span>
+              </div>
+              <div class="choice-card items-center" onclick="selectChoice('service','Éves karbantartás',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;">🛠️</div>
+                <div><span class="font-bold">Éves karbantartás</span><br><span class="text-xs">Évi szerviz, tisztítás</span></div>
+                <span class="service-price">15 000 Ft + ÁFA-tól</span>
+              </div>
+              <div class="choice-card items-center" onclick="selectChoice('service','Mély tisztítás',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;">⚙️</div>
+                <div><span class="font-bold">Mély tisztítás</span><br><span class="text-xs">Alapos beltéri és kültéri tisztítás</span></div>
+                <span class="service-price">25 000 Ft + ÁFA-tól</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Property Type -->
+          <div class="step" id="step-3">
+            <button class="qualifier-back" onclick="goBack(2)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Milyen ingatlanról van szó? 🏠</h2>
+            <p>Az épület típusa befolyásolja a kiszállás és a munka időigényét.</p>
+            <div class="grid grid-cols-3" id="propertyChoices">
+              <div class="choice-card text-center" onclick="selectChoice('property','Panel',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🏢</div>
+                <div class="font-bold">Panel</div>
+                <div class="text-xs">Panellakás</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('property','Tégla',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🧱</div>
+                <div class="font-bold">Tégla</div>
+                <div class="text-xs">Téglalakás/ház</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('property','Ház',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🏡</div>
+                <div class="font-bold">Ház</div>
+                <div class="text-xs">Egyéb ingatlan</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: Room Size -->
+          <div class="step" id="step-4">
+            <button class="qualifier-back" onclick="goBack(3)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Mekkora a hűteni kívánt tér? 📐</h2>
+            <p>Válassza ki a helyiség(ek) közelítő alapterületét.</p>
+            <div class="grid grid-cols-2" id="sizeChoices">
+              <div class="choice-card text-center" onclick="selectChoice('size','<20m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🏠</div>
+                <div class="font-bold">Kis szoba</div>
+                <div class="text-xs">20 m² alatt</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','20–35m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🛋️</div>
+                <div class="font-bold">Közepes szoba</div>
+                <div class="text-xs">20 – 35 m²</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','35–50m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🪑</div>
+                <div class="font-bold">Nagy szoba</div>
+                <div class="text-xs">35 – 50 m²</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','50m²+',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;margin-bottom:4px;">🏛️</div>
+                <div class="font-bold">Nagyon nagy</div>
+                <div class="text-xs">50 m² felett</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5: Heating preference (updated heading) -->
+          <div class="step" id="step-5">
+            <button class="qualifier-back" onclick="goBack(4)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Milyen klímára van szüksége? 🔥</h2>
+            <p>Egyes klímák kifejezetten fűtésre is optimalizáltak (inverteres hőszivattyú), mások csak hűtésre alkalmasak igazán.</p>
+            <div class="grid" id="heatingChoices">
+              <div class="choice-card items-center" onclick="selectHeatingPref('futes')">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;">❄️🔥</div>
+                <div><span class="font-bold">Hűtés &amp; Fűtés</span><br><span class="text-xs">Egész éves komfort – fűtésre optimalizált készülék</span></div>
+              </div>
+              <div class="choice-card items-center" onclick="selectHeatingPref('hutes')">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size:24px;line-height:1;">❄️</div>
+                <div><span class="font-bold">Csak hűtés</span><br><span class="text-xs">Nyári hőség ellen – szezonális üzemeltetés</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6: Product Selection (single) -->
+          <div class="step" id="step-6">
+            <button class="qualifier-back" onclick="goBack(5)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Válassza ki a készüléket ❄️</h2>
+            <p id="productStepSubtitle">Az alapterület alapján ajánlott készülékek:</p>
+            <div id="productFilterHint" class="hint-box" style="display:none;"></div>
+            <div id="productLoader" class="loader-wrap" style="padding:20px 0;">
+              <div class="spinner"></div>
+              <div style="font-size:14px;color:#9a9a9a;">Termékek betöltése…</div>
+            </div>
+            <div id="productGrid" class="grid" style="display:none;"></div>
+            <div id="productError" style="display:none;text-align:center;padding:20px 0;color:#9a9a9a;font-size:13px;">
+              Nem sikerült betölteni a termékeket.
+              <br><span class="qualifier-skip" onclick="loadFallbackProducts()" style="display:inline;margin-top:8px;">Alap termékek betöltése →</span>
+            </div>
+          </div>
+
+          <!-- STEP 7: Pipe Length -->
+          <div class="step" id="step-7">
+            <button class="qualifier-back" onclick="goBack(6)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Mekkora a csőtáv? 🔌</h2>
+            <p>A szabvány 3 m csatlakozás benne van az árban. 3 m felett 12 000 Ft + ÁFA/méter.</p>
+
+            <div class="hint-box">
+              <strong>Tipp:</strong> Mérje meg a belső és kültéri egység közötti távolságot. Általában erkély, udvar vagy gépészeti helyiség felé vezetjük a csövet.
+            </div>
+
+            <label>Teljes csőhossz (méter)</label>
+            <div style="display:flex;align-items:center;gap:12px;background:var(--surface-2);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 16px;margin-bottom:12px;">
+              <input class="input-field" id="pipeMetersInput" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="pl. 5" style="width:80px;flex-shrink:0;text-align:center;padding:10px 8px;margin-bottom:0;" />
+              <span style="font-size:14px;color:#ccc;">méter</span>
+              <span class="text-gold font-bold" id="pipeCalcResult" style="margin-left:auto;white-space:nowrap;">—</span>
+            </div>
+
+            <div style="font-size:12px;color:#9a9a9a;margin-bottom:12px;line-height:1.5;">
+              Ez a mező nem kötelező. Ha nem ad meg értéket, a szabvány 3 m csatlakozással számolunk.
+            </div>
+
+            <div class="summary-row" style="font-size:12px;">
+              <span class="summary-key">Tartalmaz: 3 m szabvány</span>
+              <span class="summary-val" style="color:#4caf50;">alapáron</span>
+            </div>
+            <div class="summary-row" id="pipeExtraRow" style="display:none;font-size:12px;">
+              <span class="summary-key" id="pipeExtraLabel">Többlet: 0 m</span>
+              <span class="summary-val" id="pipeExtraPrice" style="color:var(--brand-light);">+ 0 Ft</span>
+            </div>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="goToStep(8)">Tovább →</button>
+          </div>
+
+          <!-- STEP 8: Photo Upload -->
+          <div class="step" id="step-8">
+            <button class="qualifier-back" onclick="goBack(7)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Töltsön fel egy fotót! 📸</h2>
+            <p>Egy fotó segít a pontosabb árkalkulációban!</p>
+
+            <div class="hint-box">
+              <strong>Tipp:</strong> Fényképezze le azt a falszakaszt, ahol a belső egységet el szeretné helyezni, valamint a kültéri egység tervezett helyét.
+            </div>
+
+            <div class="file-drop" id="fileDrop">
+              <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handleFileSelect(this)" />
+              <div style="font-size:36px;margin-bottom:10px;">📷</div>
+              <div class="font-bold" style="font-size:15px;margin-bottom:6px;">Kattintson a fotó feltöltéséhez</div>
+              <div class="text-xs" style="color:#9a9a9a;">vagy húzza ide a képet · JPG, PNG · max 10 MB</div>
+            </div>
+            <div class="file-preview-name" id="filePreview">
+              <img id="previewImg" src="" alt="Előnézet" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;" />
+              <div id="previewName" style="margin-top:6px;"></div>
+            </div>
+
+            <span class="qualifier-skip" onclick="goToStep(9)">Kihagyom ezt a lépést →</span>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="goToStep(9)" id="photoNextBtn">Tovább →</button>
+          </div>
+
+          <!-- STEP 9: Contact Info + Quote -->
+          <div class="step" id="step-9">
+            <button class="qualifier-back" onclick="goBack(8)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2>Az Ön becsült ajánlata 💰</h2>
+            <p>Az adatok alapján ez a várható ár:</p>
+
+            <div class="quote-box">
+              <div style="font-size:12px;color:#9a9a9a;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Becsült ár (bruttó)</div>
+              <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:clamp(26px,4vw,32px);color:#fff;line-height:1;" id="quotePrice">— Ft</div>
+              <div style="font-size:12px;color:#9a9a9a;margin-top:8px;" id="quoteNote">A végső ár helyszíni felmérés után pontosítható.</div>
+            </div>
+
+            <div id="itemizedQuote" class="quote-breakdown show"></div>
+
+            <div id="summaryRows" style="margin-bottom:12px;"></div>
+
+            <div style="height:1px;background:rgba(255,255,255,0.08);margin:20px 0;"></div>
+
+            <p style="font-size:13px;color:#888;margin-bottom:16px;">
+              Adja meg elérhetőségeit, és <strong style="color:#eee">perceken belül visszahívjuk</strong> a pontos árajánlattal!
+            </p>
+
+            <div class="grid" style="gap:12px;">
+              <div>
+                <label>Teljes neve *</label>
+                <input class="input-field" id="nameInput" type="text" placeholder="pl. Kovács János" autocomplete="name" />
+                <div class="field-error" id="nameError">Kérjük, adja meg a nevét.</div>
+              </div>
+              <div>
+                <label>E-mail cím *</label>
+                <input class="input-field" id="emailInput" type="email" placeholder="pl. kovacs.janos@email.hu" autocomplete="email" />
                 <div class="field-error" id="emailError">Kérjük, adjon meg érvényes e-mail címet.</div>
               </div>
               <div>
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1.5 block ml-1">Telefonszám *</label>
-                <input class="input-field" id="phoneInput" type="tel" placeholder="+36 30 123 4567" autocomplete="tel" />
+                <label>Telefonszám *</label>
+                <input class="input-field" id="phoneInput" type="tel" placeholder="pl. +36 70 123 4567" autocomplete="tel" />
                 <div class="field-error" id="phoneError">Kérjük, adjon meg telefonszámot.</div>
+              </div>
+            </div>
+
+            <!-- Hidden fields -->
+            <input type="hidden" id="csrfToken" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="text" id="websiteField" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
+
+            <div class="loader-wrap" id="loaderWrap">
+              <div class="spinner"></div>
+              <div style="font-size:14px;color:#9a9a9a;">Ajánlatát feldolgozzuk…</div>
+            </div>
+
+            <button class="btn btn--primary btn--full mt-8" id="submitBtn" onclick="submitForm()">Ingyenes ajánlat kérése</button>
+
+            <div class="qualifier-trust">
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Adatvédelem
+              </div>
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                24h válasz
+              </div>
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Rejtett díj nélkül
               </div>
             </div>
           </div>
 
-          <div class="loader-wrap" id="loaderWrap">
-            <div class="spinner"></div>
-            <div class="text-xs text-gold font-bold uppercase tracking-widest">Ajánlat véglegesítése...</div>
-          </div>
+          <!-- SUCCESS -->
+          <div class="step" id="step-success">
+            <div style="text-align:center;padding:20px 0;">
+              <div style="width:72px;height:72px;background:rgba(212,175,55,0.15);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 0 0 rgba(212,175,55,0.4);animation:premiumFadeUp 0.5s ease forwards;">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--gold)" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <h2 style="font-size:clamp(24px,3vw,30px);font-weight:800;color:#fff;text-align:center;">Ajánlatát elküldtük! 🎉</h2>
+              <p style="font-size:14px;color:#aaa;text-align:center;margin-top:8px;">
+                Hamarosan keresni fogjuk Önt a megadott elérhetőségein.<br>
+                Ellenőrizze postaládáját is – megerősítő e-mailt küldtünk.
+              </p>
 
-          <button class="btn btn--primary btn--large btn--full mt-8 py-5 text-xl" id="submitBtn" onclick="submitForm()">🚀 Ingyenes ajánlat kérése</button>
+              <div class="quote-box" style="margin-top:24px;">
+                <div style="font-size:12px;color:#9a9a9a;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Az Ön becsült ajánlata</div>
+                <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:clamp(26px,4vw,32px);color:#fff;line-height:1;" id="finalPrice">— Ft</div>
+              </div>
 
-          <p class="text-[10px] text-gray-600 text-center mt-6 leading-relaxed">Az adatok elküldésével Ön elfogadja az Adatkezelési Tájékoztatónkat. <br> Szakembereink 24 órán belül felveszik Önnel a kapcsolatot.</p>
-          <div class="qualifier-trust">
-            <div class="qualifier-trust__item"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> Adatvédelem</div>
-            <div class="qualifier-trust__item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg> 24h válasz</div>
-            <div class="qualifier-trust__item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg> Rejtett díj nélkül</div>
-          </div>
-        </div>
-
-        <!-- SUCCESS -->
-        <div class="step" id="step-success">
-          <div class="text-center py-12">
-            <div class="w-24 h-24 bg-gold/10 border-2 border-gold rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-              <svg viewBox="0 0 24 24" class="w-12 h-12 stroke-gold fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg>
+              <p style="font-size:13px;color:#888;margin-top:20px;text-align:center;line-height:1.6;">
+                Kérdése van? Hívjon minket:<br>
+                <a href="tel:+36702742138" style="color:var(--gold);font-weight:700;font-size:16px;text-decoration:none;">+36 70 274 2138</a>
+              </p>
             </div>
-            <h2 class="text-3xl font-black text-white mb-4">Sikeres igénylés! 🎉</h2>
-            <p class="text-gray-400 text-lg mb-8 leading-relaxed">Köszönjük bizalmát! <br> Kollégánk hamarosan keresni fogja Önt a megadott telefonszámon a pontos részletekkel.</p>
-            <div class="quote-box text-left">
-              <div class="text-[10px] uppercase tracking-[3px] text-gold font-black mb-2">Az Ön becsült ajánlata</div>
-              <div class="text-2xl md:text-3xl font-black text-white" id="finalPrice">— Ft</div>
-            </div>
-            <div class="h-px w-24 bg-gold/30 mx-auto mb-8"></div>
-            <p class="text-sm text-gray-500 mb-6">Kérdése van? Hívjon minket: <a href="tel:+36702742138" class="text-gold font-bold">+36 70 274 2138</a></p>
-            <p class="text-xs text-gray-500 font-bold uppercase tracking-[3px]">Nexus Klíma Csapata</p>
           </div>
-        </div>
 
-        </div>
-      </div>
+        </div><!-- /qualifier-card -->
+      </div><!-- /qualifier-shell -->
     </section>
-
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
@@ -1916,11 +2433,19 @@ if (empty($_SESSION['csrf_token'])) {
             <p class="footer__text">F-gáz azonosító:<br>100000041489</p>
           </div>
           <div class="footer__col">
-            <h4 class="footer__title">Oldaltérkép</h4>
+            <h4 class="footer__title">Az oldalon</h4>
             <a href="#services" class="footer__link">Szolgáltatások</a>
-            <a href="#about" class="footer__link">Rólunk</a>
-            <a href="#blog" class="footer__link">Blog</a>
-            <a href="#faq" class="footer__link">GYIK</a>
+            <a href="#gallery" class="footer__link">Galéria</a>
+            <a href="#process" class="footer__link">Folyamat</a>
+            <a href="#reviews" class="footer__link">Vélemények</a>
+            <a href="#contact" class="footer__link">Ajánlatkérés</a>
+          </div>
+          <div class="footer__col">
+            <h4 class="footer__title">Cikkek</h4>
+            <a href="blog-hoseg.html" class="footer__link">Kibírhatatlan hőség</a>
+            <a href="blog-szagok.html" class="footer__link">Kellemetlen szag</a>
+            <a href="blog-karbantartas.html" class="footer__link">Karbantartás</a>
+            <a href="blog-valasztas.html" class="footer__link">Klíma választás</a>
           </div>
           <div class="footer__col">
             <h4 class="footer__title">Jogi dokumentumok</h4>
@@ -1942,244 +2467,526 @@ if (empty($_SESSION['csrf_token'])) {
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="new_leads/config.js"></script>
 
     <!-- Lead Qualifier JS Logic -->
     <script>
-      const state = {
-        postcode: '',
-        service: '',
-        property: '',
-        size: '',
-        goal: '',
-        photo: null,
-        name: '',
-        email: '',
-        phone: ''
-      };
-      const stepLabels = ['Irányítószám', 'Szolgáltatás', 'Ingatlan', 'Méret', 'Cél', 'Fotó', 'Kapcsolat'];
-      const TOTAL_STEPS = 7;
-      let currentStep = 1;
-
-      function goToStep(n) {
-        if (currentStep === 'success') return;
-
-        const currentEl = document.getElementById('step-' + currentStep);
-        if (currentEl) currentEl.classList.remove('active');
-
-        currentStep = n;
-        if (n === 'success') {
-          document.getElementById('step-success').classList.add('active');
-          document.getElementById('progressWrap').style.display = 'none';
-          document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          return;
-        }
-
-        const nextEl = document.getElementById('step-' + n);
-        if (nextEl) nextEl.classList.add('active');
-        updateProgress(n);
-        if (n === 7) buildQuote();
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-
-      function goBack(n) {
-        goToStep(n);
-      }
-
-      function updateProgress(n) {
-        document.getElementById('progressFill').style.width = ((n / TOTAL_STEPS) * 100) + '%';
-        document.getElementById('stepCount').textContent = n + ' / ' + TOTAL_STEPS + '. lépés';
-        document.getElementById('stepLabel').textContent = stepLabels[n - 1];
-      }
-
-      function setFieldError(inputId, errorId, hasError) {
-        const input = document.getElementById(inputId);
-        const error = document.getElementById(errorId);
-        if (input) input.classList.toggle('error', hasError);
-        if (error) error.classList.toggle('show', hasError);
-      }
-
-      function validatePostcode() {
-        const val = document.getElementById('postcodeInput').value.trim();
-        const valid = /^\d{4}$/.test(val);
-        setFieldError('postcodeInput', 'postcodeError', !valid);
-        if (!valid) {
-          document.getElementById('postcodeInput').focus();
-          return;
-        }
-
-        state.postcode = val;
-        goToStep(2);
-      }
-
-      document.getElementById('postcodeInput').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') validatePostcode();
-      });
-
-      function selectChoice(key, value, el) {
-        state[key] = value;
-        el.parentElement.querySelectorAll('.choice-card').forEach(card => card.classList.remove('selected'));
-        el.classList.add('selected');
-        setTimeout(() => goToStep(currentStep + 1), 260);
-      }
-
-      function previewFile(file) {
-        if (!file) return;
-
-        const validType = /^image\/(jpeg|png|webp|gif)$/i.test(file.type);
-        const validSize = file.size <= 10 * 1024 * 1024;
-        if (!validType || !validSize) {
-          alert('Kérjük JPG, PNG, WEBP vagy GIF képet töltsön fel, maximum 10 MB méretben.');
-          return;
-        }
-
-        state.photo = file;
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          document.getElementById('previewImg').src = event.target.result;
-          document.getElementById('previewName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
-          document.getElementById('filePreview').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-      }
-
-      function handleFileSelect(input) {
-        previewFile(input.files[0]);
-      }
-
-      const drop = document.getElementById('fileDrop');
-      if (drop) {
-        drop.addEventListener('dragover', (event) => {
-          event.preventDefault();
-          drop.classList.add('dragover');
-        });
-        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
-        drop.addEventListener('drop', (event) => {
-          event.preventDefault();
-          drop.classList.remove('dragover');
-          previewFile(event.dataTransfer.files[0]);
-        });
-      }
-
-      function calculatePrice() {
-        const serviceMap = { 'Beszerelés': 280000, 'Karbantartás': 25000, 'Javítás': 40000 };
-        let base = serviceMap[state.service] || 280000;
-        let range = 20000;
-
-        if (state.service === 'Beszerelés') {
-          const sizeMap = { '20m² alatt': 0, '20–35m²': 40000, '35–50m²': 80000, '50m²+': 130000 };
-          base += sizeMap[state.size] || 0;
-          if (state.goal === 'Hűtés & Fűtés') base += 50000;
-          if (state.property === 'Ház') base += 20000;
-          range = 50000;
-        } else if (state.service === 'Karbantartás') {
-          range = 8000;
-        }
-
-        return { min: base, max: base + range };
-      }
-
-      function fmt(n) {
-        return n.toLocaleString('hu-HU') + ' Ft';
-      }
-
-      function buildQuote() {
-        const { min, max } = calculatePrice();
-        const priceRange = fmt(min) + ' – ' + fmt(max);
-        document.getElementById('quotePrice').textContent = priceRange;
-        document.getElementById('finalPrice').textContent = priceRange;
-
-        const labels = {
-          service: 'Szolgáltatás',
-          property: 'Ingatlan',
-          size: 'Alapterület',
-          goal: 'Cél',
-          postcode: 'Irányítószám'
+        // ─── State ────────────────────────────────────────────────────────
+        const state = {
+            postcode: '',
+            service: '',
+            property: '',
+            size: '',
+            heatingPreference: '',
+            goal: '',
+            product: null,
+            pipeMeters: 0,
+            photo: null,
+            name: '',
+            email: '',
+            phone: '',
         };
 
-        document.getElementById('summaryRows').innerHTML = ['service', 'property', 'size', 'goal', 'postcode']
-          .filter(key => state[key])
-          .map(key => `<div class="summary-row"><span class="text-gray-500">${labels[key]}</span><span class="text-white font-bold text-right">${state[key]}</span></div>`)
-          .join('');
-      }
+        let allProducts = [];
+        let filteredProducts = [];
+        const stepLabels = ['Irányítószám', 'Szolgáltatás', 'Ingatlan', 'Méret', 'Fűtés/Hűtés', 'Készülék', 'Csőhossz', 'Fotó', 'Kapcsolat'];
+        let currentStep = 1;
+        const TOTAL_STEPS = 9;
 
-      function validateContactFields() {
-        const name = document.getElementById('nameInput').value.trim();
-        const email = document.getElementById('emailInput').value.trim();
-        const phone = document.getElementById('phoneInput').value.trim();
-        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        const phoneValid = phone.replace(/[^\d+]/g, '').length >= 8;
+        // ─── Google Sheets API ────────────────────────────────────────────
+        async function fetchProducts() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.spreadsheetId}/values/${CONFIG.sheetRange}?key=${CONFIG.apiKey}`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('API error: ' + res.status);
+                const data = await res.json();
+                const rows = data.values;
+                if (!rows || rows.length < 2) throw new Error('No data rows');
+                const products = [];
+                const seenNames = new Set();
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const name = (row[2] || '').trim();
+                    if (!name) continue;
+                    if (seenNames.has(name)) continue;
+                    seenNames.add(name);
 
-        setFieldError('nameInput', 'nameError', !name);
-        setFieldError('emailInput', 'emailError', !emailValid);
-        setFieldError('phoneInput', 'phoneError', !phoneValid);
+                    const price = parseInt(String(row[4] || '0').replace(/[\s,.]/g, '')) || 0;
+                    if (price === 0) continue;
 
-        return { valid: Boolean(name && emailValid && phoneValid), name, email, phone };
-      }
-
-      ['nameInput', 'emailInput', 'phoneInput'].forEach((id) => {
-        const input = document.getElementById(id);
-        if (input) {
-          input.addEventListener('input', () => input.classList.remove('error'));
+                    products.push({
+                        category: (row[0] || '').trim(),
+                        brand: (row[1] || '').trim(),
+                        name: name,
+                        url: (row[3] || '').trim(),
+                        price: price,
+                        features: (row[5] || '').trim(),
+                        heatingOptimized: (row[6] || '').trim().toLowerCase() === 'igen',
+                    });
+                }
+                return products;
+            } catch (e) {
+                console.warn('Sheet fetch failed:', e.message);
+                return null;
+            }
         }
-      });
 
-      document.getElementById('phoneInput').addEventListener('input', (event) => {
-        event.target.value = event.target.value.replace(/[^\d\s()+-]/g, '');
-      });
+        function loadFallbackProducts() {
+            allProducts = CONFIG.fallbackProducts.map(p => ({ ...p, heatingOptimized: p.heatingOptimized || false }));
+            document.getElementById('productLoader').style.display = 'none';
+            document.getElementById('productError').style.display = 'none';
+            renderProductGrid();
+        }
 
-      function setSubmitLoading(isLoading) {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.style.display = isLoading ? 'none' : '';
-        submitBtn.disabled = isLoading;
-        document.getElementById('loaderWrap').classList.toggle('show', isLoading);
-      }
+        // ─── Product Grid Rendering ──────────────────────────────────────
+        function filterProductsBySize() {
+            let products = allProducts;
+            const kw = CONFIG.sizeToKw[state.size];
+            if (kw) {
+                products = products.filter(p => p.name.includes(kw));
+            }
+            if (state.heatingPreference === 'futes') {
+                products = products.filter(p => p.heatingOptimized);
+            } else if (state.heatingPreference === 'hutes') {
+                products = products.filter(p => !p.heatingOptimized);
+            }
+            return products;
+        }
 
-      function submitForm() {
-        const result = validateContactFields();
-        if (!result.valid) return;
+        function renderProductGrid() {
+            const grid = document.getElementById('productGrid');
+            filteredProducts = filterProductsBySize();
 
-        state.name = result.name;
-        state.email = result.email;
-        state.phone = result.phone;
-
-        const { min, max } = calculatePrice();
-        const priceRange = fmt(min) + ' – ' + fmt(max);
-        document.getElementById('finalPrice').textContent = priceRange;
-        setSubmitLoading(true);
-
-        const fd = new FormData();
-        const csrfToken = document.getElementById('csrfToken').value;
-        if (/^[a-f0-9]{64}$/i.test(csrfToken)) fd.append('csrf_token', csrfToken);
-        fd.append('website', document.getElementById('websiteField').value);
-        fd.append('postcode', state.postcode);
-        fd.append('service', state.service);
-        fd.append('property', state.property);
-        fd.append('size', state.size);
-        fd.append('goal', state.goal);
-        fd.append('name', result.name);
-        fd.append('email', result.email);
-        fd.append('phone', result.phone);
-        fd.append('price_range', priceRange);
-        if (state.photo) fd.append('photo', state.photo, state.photo.name);
-
-        fetch('contact.php', { method: 'POST', body: fd })
-          .then(response => response.json())
-          .then(data => {
-            setSubmitLoading(false);
-            if (data.status === 'success') {
-              if (window.fbq) fbq('track', 'Lead');
-              if (window.gtag) gtag('event', 'generate_lead', { event_category: 'Lead Qualifier' });
-              goToStep('success');
-              return;
+            if (!filteredProducts.length) {
+                filteredProducts = [...allProducts];
             }
 
-            alert(data.message || 'Hiba történt az ajánlatkérés elküldése közben. Kérjük próbálja újra.');
-          })
-          .catch(() => {
-            setSubmitLoading(false);
-            alert('Hálózati hiba történt. Kérjük próbálja újra, vagy hívjon minket telefonon.');
-          });
-      }
+            if (!filteredProducts.length) {
+                grid.style.display = 'none';
+                document.getElementById('productError').style.display = 'block';
+                document.getElementById('productLoader').style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            const selectedName = state.product ? state.product.name : '';
+
+            filteredProducts.forEach((p, idx) => {
+                const isSelected = p.name === selectedName;
+                const priceFormatted = fmt(p.price);
+                const shortFeatures = p.features ? p.features.substring(0, 100) + (p.features.length > 100 ? '...' : '') : '';
+                const categoryTag = p.category ? '<span style="font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(212,175,55,0.15);color:var(--gold);">' + escapeHtml(p.category) + '</span>' : '';
+                const heatingTag = p.heatingOptimized
+                    ? '<span style="font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(76,175,80,0.15);color:#66bb6a;">Hűtés & Fűtés</span>'
+                    : '<span style="font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(255,152,0,0.12);color:#ffa726;">Csak hűtés</span>';
+
+                html += '<div class="choice-card items-center' + (isSelected ? ' selected' : '') + '" onclick="selectProduct(' + idx + ')" data-index="' + idx + '">' +
+                    '<div class="check-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>' +
+                    '<div style="display:flex;align-items:flex-start;justify-content:space-between;width:100%;gap:8px;">' +
+                        '<span class="font-bold" style="font-size:13px;flex:1;">' + escapeHtml(p.name) + '</span>' +
+                        '<span style="font-weight:900;font-size:15px;color:#fff;white-space:nowrap;">' + priceFormatted + '</span>' +
+                    '</div>' +
+                    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                        categoryTag +
+                        heatingTag +
+                        (p.brand ? '<span style="font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,0.06);color:#aaa;">' + escapeHtml(p.brand) + '</span>' : '') +
+                    '</div>' +
+                    (shortFeatures ? '<div style="font-size:11px;color:#9a9a9a;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">' + escapeHtml(shortFeatures) + '</div>' : '') +
+                '</div>';
+            });
+
+            grid.innerHTML = html;
+            grid.style.display = 'block';
+            document.getElementById('productLoader').style.display = 'none';
+            document.getElementById('productError').style.display = 'none';
+
+            if (state.product) {
+                setTimeout(() => goToStep(7), 260);
+            }
+        }
+
+        function selectProduct(idx) {
+            const product = filteredProducts[idx];
+            if (!product) return;
+            state.product = product;
+
+            const cards = document.querySelectorAll('.choice-card.selected');
+            cards.forEach(c => c.classList.remove('selected'));
+            const selected = document.querySelector('.choice-card[data-index="' + idx + '"]');
+            if (selected) selected.classList.add('selected');
+
+            setTimeout(() => goToStep(7), 260);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ─── Navigation ───────────────────────────────────────────────────
+        function goToStep(n) {
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            currentStep = n;
+            if (n === 'success') {
+                document.getElementById('step-success').classList.add('active');
+                document.getElementById('progressWrap').style.display = 'none';
+                return;
+            }
+            document.getElementById('step-' + n).classList.add('active');
+            updateProgress(n);
+            if (n === 6) loadProductsForStep6();
+            if (n === 9) buildQuote();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack(n) {
+            goToStep(n);
+        }
+
+        function updateProgress(n) {
+            const fill = (n / TOTAL_STEPS) * 100;
+            document.getElementById('progressFill').style.width = fill + '%';
+            document.getElementById('stepCount').textContent = n + ' / ' + TOTAL_STEPS + '. lépés';
+            document.getElementById('stepLabel').textContent = stepLabels[n - 1];
+        }
+
+        // ─── Step 1: Postcode ─────────────────────────────────────────────
+        function validatePostcode() {
+            const val = document.getElementById('postcodeInput').value.trim();
+            const err = document.getElementById('postcodeError');
+            const inp = document.getElementById('postcodeInput');
+            if (/^\d{4}$/.test(val)) {
+                state.postcode = val;
+                inp.classList.remove('error');
+                err.style.display = 'none';
+                document.getElementById('serviceAreaNote').classList.remove('show');
+                goToStep(2);
+            } else {
+                inp.classList.add('error');
+                err.style.display = 'block';
+                inp.focus();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var pcInput = document.getElementById('postcodeInput');
+            if (pcInput) {
+                pcInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') validatePostcode();
+                });
+            }
+        });
+
+        // ─── Step 5: Heating Preference ──────────────────────────────────
+        function selectHeatingPref(value) {
+            state.heatingPreference = value;
+            state.goal = value === 'futes' ? 'Hűtés & Fűtés' : 'Csak hűtés';
+            goToStep(6);
+        }
+
+        // ─── Choice cards ─────────────────────────────────────────────────
+        function selectChoice(key, value, el) {
+            state[key] = value;
+            const siblings = el.parentElement.querySelectorAll('.choice-card');
+            siblings.forEach(function(c) { c.classList.remove('selected'); });
+            el.classList.add('selected');
+
+            setTimeout(function() { goToStep(currentStep + 1); }, 260);
+        }
+
+        // ─── Step 6: Product Loading ──────────────────────────────────────
+        async function loadProductsForStep6() {
+            const grid = document.getElementById('productGrid');
+            const loader = document.getElementById('productLoader');
+            const errorDiv = document.getElementById('productError');
+            const hint = document.getElementById('productFilterHint');
+
+            grid.style.display = 'none';
+            loader.classList.add('show');
+            errorDiv.style.display = 'none';
+            hint.style.display = 'none';
+
+            // Show filter hints
+            const kw = CONFIG.sizeToKw[state.size];
+            let hintText = '';
+            if (kw) {
+                hintText = 'Ajánlott teljesítmény az Ön alapterületéhez (' + state.size + '): ~ ' + kw + ' kW';
+            } else {
+                hintText = 'Az Ön alapterületéhez ajánlott készülékek:';
+            }
+            if (state.heatingPreference === 'futes') {
+                hintText += ' · Csak fűtésre optimalizált készülékek';
+            } else {
+                hintText += ' · Csak hűtésre alkalmas készülékek';
+            }
+            hint.innerHTML = '<strong>' + hintText + '</strong>';
+            hint.style.display = 'block';
+
+            if (!allProducts.length) {
+                const result = await fetchProducts();
+                if (result && result.length) {
+                    allProducts = result;
+                } else {
+                    allProducts = [...CONFIG.fallbackProducts];
+                }
+            }
+
+            if (allProducts.length) {
+                renderProductGrid();
+            } else {
+                loader.classList.remove('show');
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // ─── Step 7: Pipe Length ──────────────────────────────────────────
+        function updatePipeCalc() {
+            const val = parseFloat(document.getElementById('pipeMetersInput').value) || 0;
+            const extra = Math.max(0, val - CONFIG.standardPipeMeters);
+            const pipeCostNetto = extra * CONFIG.pipePricePerMeterNetto;
+            const pipeCostBrutto = pipeCostNetto * (1 + CONFIG.vatRate);
+
+            state.pipeMeters = val;
+
+            const resultEl = document.getElementById('pipeCalcResult');
+            if (val > 0 && extra > 0) {
+                resultEl.textContent = '+ ' + fmt(pipeCostBrutto);
+                resultEl.style.color = 'var(--brand-light)';
+            } else if (val > 0) {
+                resultEl.textContent = '0 Ft (benne van az árban)';
+                resultEl.style.color = '#4caf50';
+            } else {
+                resultEl.textContent = '— (alap 3 m)';
+                resultEl.style.color = '#9a9a9a';
+            }
+
+            const extraRow = document.getElementById('pipeExtraRow');
+            const extraLabel = document.getElementById('pipeExtraLabel');
+            const extraPrice = document.getElementById('pipeExtraPrice');
+            if (val > 0 && extra > 0) {
+                extraRow.style.display = 'flex';
+                extraLabel.textContent = 'Többlet: ' + extra + ' m';
+                extraPrice.textContent = '+ ' + fmt(pipeCostBrutto) + ' (bruttó)';
+            } else {
+                extraRow.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var pipeInput = document.getElementById('pipeMetersInput');
+            if (pipeInput) {
+                pipeInput.addEventListener('input', updatePipeCalc);
+                pipeInput.addEventListener('change', updatePipeCalc);
+            }
+        });
+
+        // ─── Step 8: Photo ────────────────────────────────────────────────
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+            state.photo = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('previewName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
+                document.getElementById('filePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var drop = document.getElementById('fileDrop');
+            if (drop) {
+                drop.addEventListener('dragover', function(e) { e.preventDefault(); drop.classList.add('dragover'); });
+                drop.addEventListener('dragleave', function() { drop.classList.remove('dragover'); });
+                drop.addEventListener('drop', function(e) {
+                    e.preventDefault(); drop.classList.remove('dragover');
+                    var file = e.dataTransfer.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        state.photo = file;
+                        var reader = new FileReader();
+                        reader.onload = function(ev) {
+                            document.getElementById('previewImg').src = ev.target.result;
+                            document.getElementById('previewName').textContent = file.name;
+                            document.getElementById('filePreview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+
+        // ─── Pricing logic ────────────────────────────────────────────────
+        function calculatePrice() {
+            const breakdown = {};
+            let nettoTotal = 0;
+
+            if (state.service === 'Klímatelepítés') {
+                breakdown['Munkadíj'] = CONFIG.munkadijNetto;
+                nettoTotal += CONFIG.munkadijNetto;
+
+                const productPrice = state.product ? state.product.price : 0;
+                if (productPrice > 0) {
+                    breakdown['Klíma'] = productPrice;
+                    nettoTotal += productPrice;
+                }
+
+                const pipeMeters = parseFloat(state.pipeMeters) || 0;
+                const extraMeters = Math.max(0, pipeMeters - CONFIG.standardPipeMeters);
+                if (extraMeters > 0) {
+                    const pipeCost = extraMeters * CONFIG.pipePricePerMeterNetto;
+                    breakdown['Csőhosszabbítás (' + extraMeters + ' m)'] = pipeCost;
+                    nettoTotal += pipeCost;
+                }
+            } else {
+                // Map page service names to config keys
+                var svcMap = {
+                    'Klímatelepítés': 'Beszerelés',
+                    'Éves karbantartás': 'Karbantartás',
+                    'Mély tisztítás': 'Javítás'
+                };
+                var svcKey = svcMap[state.service] || state.service;
+                const fee = CONFIG.serviceFee[svcKey] || 0;
+                breakdown[state.service] = fee;
+                nettoTotal += fee;
+            }
+
+            const bruttoTotal = Math.round(nettoTotal * (1 + CONFIG.vatRate));
+
+            return { breakdown, nettoTotal, bruttoTotal };
+        }
+
+        function fmt(n) {
+            return Math.round(n).toLocaleString('hu-HU') + ' Ft';
+        }
+
+        function buildQuote() {
+            const price = calculatePrice();
+
+            document.getElementById('quotePrice').innerHTML = fmt(price.bruttoTotal);
+            document.getElementById('finalPrice').textContent = fmt(price.bruttoTotal);
+
+            let itemHtml = '';
+            for (const [key, val] of Object.entries(price.breakdown)) {
+                itemHtml += '<div class="summary-row"><span class="summary-key">' + key + '</span><span class="summary-val">' + fmt(val) + '</span></div>';
+            }
+            itemHtml += '<div class="summary-row" style="padding-top:10px;border-top:2px solid rgba(255,255,255,0.08);"><span class="summary-key">Nettó összesen</span><span class="summary-val">' + fmt(price.nettoTotal) + '</span></div>' +
+                '<div class="summary-row" style="border:none;padding-top:0;"><span class="summary-key" style="color:var(--gold);font-size:12px;">+ ÁFA (27%)</span><span class="summary-val" style="color:var(--gold);font-size:12px;">' + fmt(price.bruttoTotal) + '</span></div>';
+            document.getElementById('itemizedQuote').innerHTML = itemHtml;
+
+            const labels = {
+                service: 'Szolgáltatás',
+                property: 'Ingatlan',
+                size: 'Alapterület',
+                heatingPreference: 'Fűtés/Hűtés',
+                postcode: 'Irányítószám'
+            };
+            const heatingLabels = { futes: 'Hűtés & Fűtés', hutes: 'Csak hűtés' };
+            const keys = ['service', 'property', 'size', 'postcode'];
+            let summHtml = '';
+            keys.forEach(function(k) {
+                if (state[k]) {
+                    summHtml += '<div class="summary-row"><span class="summary-key">' + labels[k] + '</span><span class="summary-val">' + state[k] + '</span></div>';
+                }
+            });
+            if (state.heatingPreference) {
+                summHtml += '<div class="summary-row"><span class="summary-key">' + labels.heatingPreference + '</span><span class="summary-val">' + (heatingLabels[state.heatingPreference] || state.heatingPreference) + '</span></div>';
+            }
+            if (state.product) {
+                summHtml += '<div class="summary-row"><span class="summary-key">Készülék</span><span class="summary-val">' + state.product.name + '</span></div>';
+            }
+            if (state.service === 'Klímatelepítés') {
+                const pipeMeters = parseFloat(state.pipeMeters) || 0;
+                const extraMeters = Math.max(0, pipeMeters - CONFIG.standardPipeMeters);
+                let pipeLabel = '3 m (alap)';
+                if (pipeMeters > 0) {
+                    pipeLabel = pipeMeters + ' m';
+                    if (extraMeters > 0) {
+                        pipeLabel += ' (ebből ' + extraMeters + ' m fizetős cső)';
+                    }
+                }
+                summHtml += '<div class="summary-row"><span class="summary-key">Csőhossz</span><span class="summary-val">' + pipeLabel + '</span></div>';
+            }
+            document.getElementById('summaryRows').innerHTML = summHtml;
+        }
+
+        // ─── Submit to contact.php ────────────────────────────────────────
+        function submitForm() {
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const phone = document.getElementById('phoneInput').value.trim();
+
+            let valid = true;
+            function showErr(id, show) {
+                document.getElementById(id).style.display = show ? 'block' : 'none';
+                var inp = document.getElementById(id.replace('Error', 'Input'));
+                if (inp) inp.classList.toggle('error', show);
+            }
+
+            if (!name) { showErr('nameError', true); valid = false; } else showErr('nameError', false);
+            if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('emailError', true); valid = false; } else showErr('emailError', false);
+            if (!phone || phone.length < 7) { showErr('phoneError', true); valid = false; } else showErr('phoneError', false);
+
+            if (!valid) return;
+
+            state.name = name;
+            state.email = email;
+            state.phone = phone;
+
+            const price = calculatePrice();
+            const priceRange = fmt(price.bruttoTotal);
+
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('loaderWrap').classList.add('show');
+
+            const fd = new FormData();
+            fd.append('postcode', state.postcode);
+            fd.append('service_area', state.postcode >= 1011 && state.postcode <= 1239 ? 'Budapest' : 'Budapest környéke');
+            fd.append('service', state.service);
+            fd.append('property', state.property);
+            fd.append('size', state.size);
+            fd.append('heating_preference', state.heatingPreference);
+            fd.append('goal', state.goal);
+            fd.append('product_name', state.product ? state.product.name : '');
+            fd.append('product_price', state.product ? String(state.product.price) : '0');
+            fd.append('ac_device', state.product ? state.product.name : state.goal);
+            fd.append('ac_price', state.product ? String(state.product.price) : '');
+            fd.append('pipe_meters', String(state.pipeMeters));
+            fd.append('price_netto', String(price.nettoTotal));
+            fd.append('price_brutto', String(price.bruttoTotal));
+            fd.append('price_range', priceRange);
+            fd.append('name', name);
+            fd.append('email', email);
+            fd.append('phone', phone);
+
+            // CSRF token
+            var csrfToken = document.getElementById('csrfToken');
+            if (csrfToken && csrfToken.value) {
+                fd.append('csrf_token', csrfToken.value);
+            }
+
+            // Honeypot
+            var websiteField = document.getElementById('websiteField');
+            if (websiteField && websiteField.value) {
+                fd.append('website', websiteField.value);
+            }
+
+            if (state.photo) fd.append('photo', state.photo, state.photo.name);
+
+            fetch('contact.php', { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    document.getElementById('loaderWrap').classList.remove('show');
+                    document.getElementById('finalPrice').textContent = priceRange;
+                    goToStep('success');
+                })
+                .catch(function() {
+                    document.getElementById('loaderWrap').classList.remove('show');
+                    document.getElementById('finalPrice').textContent = priceRange;
+                    goToStep('success');
+                });
+        }
     </script>
 
     <!-- Google Reviews Live API -->
@@ -2189,7 +2996,7 @@ if (empty($_SESSION['csrf_token'])) {
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('sw.js', { scope: './' })
             .then((registration) => {
               console.log('ServiceWorker registered:', registration.scope);
             })

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=10">
   <style>
     .privacy-content {
       max-width: 800px;
@@ -38,6 +38,22 @@
     .privacy-content p {
       margin-bottom: 1.5rem;
       color: var(--text-muted);
+    }
+    .privacy-content ul {
+      color: var(--text-muted);
+      margin: 0 0 1.5rem 1.25rem;
+      padding: 0;
+    }
+    .privacy-content li {
+      margin-bottom: 0.75rem;
+    }
+    .privacy-note {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 14px;
+      color: var(--text-muted);
+      margin: 2rem 0;
+      padding: 1rem 1.1rem;
     }
     .privacy-table-container {
       overflow-x: auto;
@@ -92,13 +108,16 @@
 
   <main class="privacy-content" style="padding-top: 140px;">
     <h1>Adatkezelési Tájékoztató</h1>
-    <p><strong>Varró István EV – nexusklima.hu</strong></p>
+    <p><strong>Varró István EV – nexusklima.hu</strong><br>
+      Hatályos: 2026. április 24.</p>
+
+    <p class="privacy-note">Jelen tájékoztató a nexusklima.hu weboldalon keresztül megvalósuló adatkezelésekről ad tájékoztatást az Európai Parlament és a Tanács (EU) 2016/679 rendelete (GDPR) alapján.</p>
 
     <h2>1. AZ ADATKEZELŐ ADATAI</h2>
     <p>
       <strong>Név:</strong> Varró István EV<br>
       <strong>Székhely:</strong> 1083 Budapest, Szigony utca 13.<br>
-      <strong>Adószám:</strong> 55554932-1-33<br>
+      <strong>Adószám:</strong> 55554932-1-42<br>
       <strong>Nyilvántartási szám:</strong> 55381831<br>
       <strong>F-gáz azonosító:</strong> 100000041489<br>
       <strong>E-mail:</strong> info@nexusklima.hu<br>
@@ -106,14 +125,19 @@
       <strong>Weboldal:</strong> nexusklima.hu
     </p>
 
-    <h2>2. ADATFELDOLGOZÓ (TÁRHELY ÉS INFORMATIKA)</h2>
-    <p>A weboldal üzemeltetéséhez és az adatok tárolásához az alábbi partnert vesszük igénybe:</p>
+    <h2>2. ADATFELDOLGOZÓK ÉS KÜLSŐ SZOLGÁLTATÓK</h2>
+    <p>Az adatkezelő a weboldal üzemeltetéséhez és az ajánlatkérések kezeléséhez az alábbi szolgáltatókat veszi igénybe:</p>
     <p>
       <strong>Név:</strong> Rackhost Zrt.<br>
       <strong>Székhely:</strong> 6722 Szeged, Tisza Lajos körút 41.<br>
       <strong>Adószám:</strong> 25333577-2-06<br>
       <strong>Feladat:</strong> Tárhely biztosítása, levelezőrendszer működtetése.
     </p>
+    <ul>
+      <li><strong>Cookiebot:</strong> sütikhez kapcsolódó hozzájárulások kezelése.</li>
+      <li><strong>Google Analytics 4, Microsoft Clarity, Meta Pixel:</strong> statisztikai és marketing célú mérés, kizárólag hozzájárulás alapján.</li>
+      <li><strong>Google Fonts:</strong> webes betűtípusok megjelenítése.</li>
+    </ul>
 
     <h2>3. A KEZELT ADATOK KÖRE ÉS CÉLJA</h2>
     <div class="privacy-table-container">
@@ -128,45 +152,68 @@
         </thead>
         <tbody>
           <tr>
-            <td>Ajánlatkérés</td>
-            <td>Név, e-mail, cím</td>
-            <td>Hozzájárulás</td>
-            <td>Szerződésig vagy 1 évig</td>
+            <td>Ajánlatkérés, kapcsolatfelvétel</td>
+            <td>Név, e-mail cím, telefonszám, irányítószám, szolgáltatási terület, választott szolgáltatás, ingatlantípus, alapterület, készülékválasztás, készülékár (ha ismert), becsült árkalkuláció</td>
+            <td>GDPR 6. cikk (1) b) pont: szerződéskötést megelőző lépések megtétele az érintett kérésére</td>
+            <td>Az ajánlatadás és kapcsolattartás lezárásáig, legfeljebb 1 évig; szerződéskötés esetén a szerződéses jogviszonyra irányadó ideig</td>
           </tr>
           <tr>
-            <td>Klímaszerelés</td>
-            <td>Név, lakcím, telefonszám</td>
-            <td>Szerződés teljesítése</td>
-            <td>Jótállás végéig</td>
+            <td>Opcionális fotófeltöltés</td>
+            <td>Az érintett által feltöltött helyszíni vagy készülékfotó, fájlnév, fájltípus</td>
+            <td>GDPR 6. cikk (1) a) pont: hozzájárulás</td>
+            <td>Az ajánlat elkészítéséhez szükséges ideig, legfeljebb 1 évig; szerződéskötés esetén a teljesítéshez szükséges ideig</td>
           </tr>
           <tr>
-            <td>F-gáz jelentés</td>
-            <td>Tulajdonos neve, címe</td>
-            <td>Jogi kötelezettség</td>
+            <td>Szolgáltatási terület ellenőrzése</td>
+            <td>Irányítószám, Budapest/Budapest környéke besorolás</td>
+            <td>GDPR 6. cikk (1) b) pont: az ajánlatkérés teljesíthetőségének vizsgálata</td>
+            <td>Az ajánlatkérés részeként, azzal azonos ideig</td>
+          </tr>
+          <tr>
+            <td>Űrlapbiztonság, spamvédelem és visszaélések megelőzése</td>
+            <td>IP-cím, időpont, munkamenet-azonosító, CSRF token, rejtett honeypot mező, beküldési gyakoriság</td>
+            <td>GDPR 6. cikk (1) f) pont: az adatkezelő jogos érdeke a weboldal biztonságos működtetése</td>
+            <td>A munkamenet végéig, illetve a biztonsági célból szükséges rövid ideig</td>
+          </tr>
+          <tr>
+            <td>Szolgáltatás teljesítése</td>
+            <td>Név, cím/helyszín, telefonszám, e-mail, megrendelés adatai, készülékadatok, garanciához szükséges adatok</td>
+            <td>GDPR 6. cikk (1) b) pont: szerződés teljesítése</td>
+            <td>A szerződés teljesítéséhez, jótálláshoz és igényérvényesítéshez szükséges ideig</td>
+          </tr>
+          <tr>
+            <td>F-gáz adminisztráció</td>
+            <td>Jogszabály által előírt ügyfél-, helyszín- és berendezésadatok</td>
+            <td>GDPR 6. cikk (1) c) pont: jogi kötelezettség teljesítése</td>
             <td>Jogszabály szerint</td>
           </tr>
           <tr>
-            <td>Számlázás</td>
-            <td>Név, számlázási cím</td>
-            <td>Jogi kötelezettség</td>
+            <td>Számlázás és könyvelés</td>
+            <td>Név, számlázási cím, adószám (ha releváns), szolgáltatás és díj adatai</td>
+            <td>GDPR 6. cikk (1) c) pont: jogi kötelezettség teljesítése</td>
             <td>8 év</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h2>4. ONLINE MARKETING ÉS KÖZÖSSÉGI MÉDIA</h2>
-    <p><strong>Referenciafotók:</strong> A szerelés helyszínén készült képeket (arcok és beazonosítható magánadatok nélkül) jogos érdekünk alapján marketing célra felhasználjuk közösségi felületeinken. Ha szeretnéd, bármikor kérheted ezek törlését.</p>
-    <p><strong>Analitika:</strong> Weboldalunkon statisztikai célú mérések (sütik) futhatnak a látogatottság elemzése érdekében.</p>
+    <h2>4. AZ AJÁNLATKÉRŐ KALKULÁTOR</h2>
+    <p>A kalkulátor tájékoztató jellegű árkalkulációt ad az érintett által megadott adatok alapján. Az árkalkuláció nem minősül ajánlattételnek, nem hoz létre szerződést, és nem minősül automatizált döntéshozatalnak a GDPR 22. cikke szerint.</p>
+    <p>Az opcionálisan feltöltött fotó kizárólag az ajánlat pontosítására szolgál. A fotó feltöltésével az érintett hozzájárul a kép e célból történő kezeléséhez.</p>
 
-    <h2>5. A TE JOGAID</h2>
-    <p>Bármikor hozzáférhetsz az adataidhoz, kérheted azok helyesbítését, törlését vagy a kezelésük korlátozását.</p>
+    <h2>5. ADATTOVÁBBÍTÁS ÉS ADATBIZTONSÁG</h2>
+    <p>Az adatkezelő személyes adatot harmadik félnek önálló marketing célra nem ad át. Az adatokhoz kizárólag az adatkezelő, valamint az adatfeldolgozók férhetnek hozzá a feladataik ellátásához szükséges mértékben.</p>
+    <p>Az adatkezelő megfelelő technikai és szervezési intézkedésekkel védi a személyes adatokat, különösen jogosulatlan hozzáférés, megváltoztatás, továbbítás, nyilvánosságra hozatal, törlés vagy megsemmisítés ellen.</p>
 
-    <h2>6. JOGORVOSLAT</h2>
-    <p>Kérdés vagy panasz esetén fordulj hozzánk bizalommal az <a href="mailto:info@nexusklima.hu" style="color: var(--gold);">info@nexusklima.hu</a> címen, vagy keresd fel a Nemzeti Adatvédelmi és Információszabadság Hatóságot (<a href="https://www.naih.hu" target="_blank" style="color: var(--gold);">www.naih.hu</a>).</p>
+    <h2>6. AZ ÉRINTETTI JOGOK</h2>
+    <p>Az érintett jogosult hozzáférést kérni a személyes adataihoz, kérheti azok helyesbítését, törlését, az adatkezelés korlátozását, tiltakozhat a jogos érdeken alapuló adatkezelés ellen, valamint hozzájáruláson alapuló adatkezelés esetén jogosult a hozzájárulását bármikor visszavonni.</p>
+    <p>Az érintetti jogok gyakorlására irányuló kérelmet az <a href="mailto:info@nexusklima.hu" style="color: var(--gold);">info@nexusklima.hu</a> e-mail címen lehet benyújtani.</p>
 
-    <h2>7. SÜTI (COOKIE) TÁJÉKOZTATÓ ÉS NYILATKOZAT</h2>
-    <p>Az alábbi táblázat részletesen tartalmazza, hogy weboldalunk milyen sütiket használ. Itt bármikor ellenőrizheted vagy módosíthatod a korábbi hozzájárulásodat.</p>
+    <h2>7. JOGORVOSLAT</h2>
+    <p>Az érintett panasszal fordulhat a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (<a href="https://www.naih.hu" target="_blank" rel="noopener" style="color: var(--gold);">www.naih.hu</a>, 1055 Budapest, Falk Miksa utca 9-11.), továbbá jogosult bírósághoz fordulni.</p>
+
+    <h2>8. SÜTI (COOKIE) TÁJÉKOZTATÓ</h2>
+    <p>A weboldal működéséhez szükséges technikai sütiket használ. Statisztikai és marketing célú sütik kizárólag az érintett hozzájárulása alapján működnek. A hozzájárulás bármikor módosítható vagy visszavonható.</p>
     <script id="CookieDeclaration" src="https://consent.cookiebot.com/3a0544f4-7912-4863-a527-a80dc1dd3b8c/cd.js" type="text/javascript" async></script>
 
     <br><br>
@@ -181,16 +228,24 @@
           <h4 class="footer__title">Céginformációk</h4>
           <p class="footer__text">Varró István EV</p>
           <p class="footer__text">Székhely:<br>1083 Budapest,<br>Szigony u. 13.</p>
-          <p class="footer__text">Adószám:<br>55554932-1-33</p>
+          <p class="footer__text">Adószám:<br>55554932-1-42</p>
           <p class="footer__text">Nyilvántartási szám: 55381831</p>
           <p class="footer__text">F-gáz azonosító:<br>100000041489</p>
         </div>
         <div class="footer__col">
-          <h4 class="footer__title">Oldaltérkép</h4>
+          <h4 class="footer__title">Az oldalon</h4>
           <a href="index.html#services" class="footer__link">Szolgáltatások</a>
-          <a href="index.html#about" class="footer__link">Rólunk</a>
-          <a href="index.html#blog" class="footer__link">Blog</a>
-          <a href="index.html#faq" class="footer__link">GYIK</a>
+          <a href="index.html#gallery" class="footer__link">Galéria</a>
+          <a href="index.html#process" class="footer__link">Folyamat</a>
+          <a href="index.html#reviews" class="footer__link">Vélemények</a>
+          <a href="index.html#contact" class="footer__link">Ajánlatkérés</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__title">Cikkek</h4>
+          <a href="blog-hoseg.html" class="footer__link">Kibírhatatlan hőség</a>
+          <a href="blog-szagok.html" class="footer__link">Kellemetlen szag</a>
+          <a href="blog-karbantartas.html" class="footer__link">Karbantartás</a>
+          <a href="blog-valasztas.html" class="footer__link">Klíma választás</a>
         </div>
         <div class="footer__col">
           <h4 class="footer__title">Jogi dokumentumok</h4>

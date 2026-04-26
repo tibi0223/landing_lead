@@ -291,17 +291,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Force scroll to top on load to prevent jumping to form
-window.addEventListener('load', () => {
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  // Only scroll to top if no hash in URL
-  if (!window.location.hash) {
-    window.scrollTo(0, 0);
-  }
-});
-
 // Handle broken images — show placeholder block
 document.querySelectorAll('img').forEach(img => {
   img.addEventListener('error', function () {
