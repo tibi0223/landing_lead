@@ -739,9 +739,18 @@ strong {
 
 .gallery__grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
   padding: 2rem 0 3.5rem;
+}
+
+.gallery__photo {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  min-height: 160px; /* mobile: 2-col tiles */
 }
 
 @media (min-width: 768px) {
@@ -774,15 +783,6 @@ strong {
     grid-column: 2 / 4;
     grid-row: 2 / 3;
   }
-}
-
-.gallery__photo {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  min-height: 250px; /* For mobile */
 }
 
 .gallery__photo::after {
@@ -1213,6 +1213,54 @@ strong {
   color: var(--text-muted);
   line-height: 1.5;
   max-width: 500px;
+}
+
+/* =============================================
+   PROCESS STAGES — 3-column desktop layout
+   ============================================= */
+.process-stages {
+  background: var(--bg);
+}
+
+/* Mobile: stacked, no change */
+.process-stages__step {
+  background: var(--bg);
+}
+
+/* Desktop: 3 equal columns side by side */
+@media (min-width: 1024px) {
+  .process-stages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 28px;
+    overflow: hidden;
+  }
+
+  .process-stages__step {
+    position: relative;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .process-stages__step:last-child {
+    border-right: none;
+  }
+
+  /* Remove top padding from installation/handover on desktop — they start fresh */
+  .process-stages .installation .process__inner,
+  .process-stages .handover .process__inner {
+    padding-top: 3rem;
+  }
+
+  .process-stages .process__inner {
+    padding: 3rem 2rem;
+    align-items: center;
+  }
 }
 
 /* =============================================
