@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+  Figma HTML→Design — mobile-width capture (390px document, avoids ~1900px empty frame).
+
+  1) Terminal:  npx http-server . -p 8877
+  2) Paste in browser (one line; replace captureId when you generate a new one in Figma MCP):
+
+  http://127.0.0.1:8877/figma-capture-mobile.html#figmacapture=dafe9144-ff4d-4a8c-b43c-72d17454ab1b&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fdafe9144-ff4d-4a8c-b43c-72d17454ab1b%2Fsubmit&figmadelay=18000
+
+  Wait until the capture finishes; a new frame appears in the Figma file.
+-->
+<html lang="hu" style="width:390px;max-width:390px;margin:0;padding:0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=390, initial-scale=1, maximum-scale=1" />
+  <title>Figma – mobile viewport</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    html {
+      width: 390px !important;
+      max-width: 390px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow-x: hidden;
+      background: #080808;
+    }
+    body {
+      width: 390px !important;
+      max-width: 390px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow-x: hidden;
+      background: #080808;
+    }
+    iframe {
+      display: block;
+      width: 390px !important;
+      max-width: 390px !important;
+      height: 12000px;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body>
+  <iframe src="index.html" title="Landing mobile capture" loading="eager"></iframe>
+</body>
+</html>
