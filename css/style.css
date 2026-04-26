@@ -1216,50 +1216,107 @@ strong {
 }
 
 /* =============================================
-   PROCESS STAGES — 3-column desktop layout
+   PROCESS STAGES — header + 3-column desktop layout
    ============================================= */
 .process-stages {
   background: var(--bg);
+  padding: 0 1.25rem;
 }
 
-/* Mobile: stacked, no change */
+/* ── Intro header: always full-width, centered ── */
+.process-stages__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3.5rem 1rem 2.5rem;
+  gap: 0.75rem;
+}
+
+/* ── Columns wrapper: mobile stacked, desktop 3-col ── */
+.process-stages__cols {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Mobile: steps stacked */
 .process-stages__step {
   background: var(--bg);
 }
 
-/* Desktop: 3 equal columns side by side */
+/* ── Desktop: 3 equal columns ── */
 @media (min-width: 1024px) {
   .process-stages {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: start;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-    gap: 0;
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 28px;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .process-stages__cols {
+    flex-direction: row;
+    align-items: stretch;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
     overflow: hidden;
   }
 
   .process-stages__step {
+    flex: 1;
     position: relative;
     border-right: 1px solid rgba(255,255,255,0.06);
+    border-top: 3px solid transparent;
+    background: rgba(255,255,255,0.015);
+    transition: background 0.25s;
   }
 
   .process-stages__step:last-child {
     border-right: none;
   }
 
-  /* Remove top padding from installation/handover on desktop — they start fresh */
-  .process-stages .installation .process__inner,
-  .process-stages .handover .process__inner {
-    padding-top: 3rem;
+  /* Gold top border accent per step */
+  .process-stages__cols .process-stages__step:nth-child(1) {
+    border-top-color: var(--gold);
+  }
+  .process-stages__cols .process-stages__step:nth-child(2) {
+    border-top-color: rgba(212,175,55,0.55);
+  }
+  .process-stages__cols .process-stages__step:nth-child(3) {
+    border-top-color: rgba(212,175,55,0.3);
   }
 
-  .process-stages .process__inner {
-    padding: 3rem 2rem;
+  /* Arrow connector between steps */
+  .process-stages__step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -1rem;
+    top: 3.25rem;
+    z-index: 2;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* Uniform inner padding on desktop */
+  .process-stages__cols .process__inner {
+    padding: 2.5rem 1.75rem 2.5rem;
     align-items: center;
+  }
+
+  /* Installation + handover inherit padding from above rule — no override needed */
+  .process-stages .installation .process__inner,
+  .process-stages .handover .process__inner {
+    padding-top: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .process-stages__cols .process__inner {
+    padding: 3rem 2.25rem;
   }
 }
 
