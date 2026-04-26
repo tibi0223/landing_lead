@@ -557,18 +557,10 @@
         }
 
         function formatQuoteHeroHtml(price) {
-            var afa = price.bruttoTotal - price.nettoTotal;
-            return '<div class="quote-price-stack">' +
-                '<p class="quote-price-lead">A becsült összeg <strong style="color:rgba(255,255,255,0.88);">nettó + ÁFA</strong> formában van feltüntetve — így könnyen átlátható, miből jön ki, amit végül fizet.</p>' +
-                '<div class="quote-price-formula">' +
-                '<span class="quote-price-num">' + fmt(price.nettoTotal) + '</span> <span class="quote-price-words">nettó összeg</span>' +
-                ' <span class="quote-price-plus-inline">+</span> ' +
-                '<span class="quote-price-num">' + fmt(afa) + '</span> <span class="quote-price-words">ÁFA (27%)</span>' +
-                '</div>' +
-                '<div class="quote-price-line quote-price-line--sum">' +
-                '<span class="quote-price-equals">=</span> <span class="quote-price-num">' + fmt(price.bruttoTotal) + '</span>' +
-                '<span class="quote-price-suffix">Ez az összesen fizetendő becsült összeg.</span>' +
-                '</div>' +
+            return '<div class="quote-price-hero-only">' +
+                '<span class="quote-price-hero-num">' + fmt(price.nettoTotal) + '</span>' +
+                '<span class="quote-price-hero-plus">+</span>' +
+                '<span class="quote-price-hero-afa">ÁFA</span>' +
                 '</div>';
         }
 

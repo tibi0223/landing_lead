@@ -17,12 +17,12 @@ if (empty($_SESSION['csrf_token'])) {
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
   <link rel="stylesheet" href="css/style.css?v=11" />
   <link rel="stylesheet" href="css/qualifier-compat.css?v=1" />
-  <link rel="stylesheet" href="css/ajanlat-calculator.css?v=1" />
+  <link rel="stylesheet" href="css/ajanlat-calculator.css?v=2" />
   <style>.ajanlat-body{margin:0;min-height:100vh;background:#050505}</style>
 </head>
 <body class="ajanlat-body">
 <?php include __DIR__ . '/ajanlat-section.php'; ?>
 <script src="new_leads/config.js"></script>
-<script src="js/qualifier.js?v=1"></script>
+<script src="js/qualifier.js?v=2"></script>
 </body>
 </html>

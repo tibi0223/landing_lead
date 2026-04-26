@@ -323,9 +323,8 @@
             <p>Ez tájékoztató jellegű — a helyszíni felmérés után pontosítjuk, ha kéri az ajánlatot.</p>
 
             <div class="quote-box">
-              <span class="quote-box__label">Becsült összeg (nettó + ÁFA)</span>
+              <span class="quote-box__label">Becsült ár</span>
               <div class="quote-box__price" id="quotePrice">—</div>
-              <span class="quote-box__note" id="quoteNote">A magánszemélynek szóló ajánlatoknál szokás így feltüntetni: először a nettó összeg, mellé az ÁFA — együtt ez adja ki, amit összesen fizet.</span>
             </div>
 
             <div id="itemizedQuote"></div>
@@ -397,7 +396,7 @@
               </p>
 
               <div class="quote-box" style="margin-top:24px;">
-                <span class="quote-box__label">Emlékeztetőül: becsült összeg (nettó + ÁFA)</span>
+                <span class="quote-box__label">Becsült ár</span>
                 <div class="quote-box__price" id="finalPrice">—</div>
               </div>
 

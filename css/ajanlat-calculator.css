@@ -637,6 +637,39 @@
       line-height: 1.2;
     }
 
+    .quote-price-hero-only {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.35em 0.5em;
+      text-align: center;
+      padding: 8px 0 4px;
+    }
+
+    .quote-price-hero-num {
+      font-size: clamp(2rem, 8vw, 2.75rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .quote-price-hero-plus {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .quote-price-hero-afa {
+      font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1;
+    }
+
     .quote-price-stack {
       display: flex;
       flex-direction: column;

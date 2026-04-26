@@ -3,7 +3,7 @@
  * Caching strategy for improved performance
  */
 
-const CACHE_NAME = 'nexus-klima-v1';
+const CACHE_NAME = 'nexus-klima-v2';
 /* Paths relative to this script (works at site root or in a subdirectory). */
 const STATIC_ASSETS = [
   'index.html',
