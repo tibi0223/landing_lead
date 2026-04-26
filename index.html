@@ -81,7 +81,7 @@ $enablePublicAnalytics = in_array($hostLower, $analyticsHosts, true);
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
-  <link rel="stylesheet" href="css/style.css?v=12" />
+  <link rel="stylesheet" href="css/style.css?v=13" />
   <link rel="stylesheet" href="css/qualifier-compat.css?v=1" />
   <link rel="stylesheet" href="css/ajanlat-calculator.css?v=1" />
   <!-- Schema.org Structured Data -->
@@ -785,7 +785,422 @@ $enablePublicAnalytics = in_array($hostLower, $analyticsHosts, true);
 
     </section>
 
-    <?php include __DIR__ . '/ajanlat-section.php'; ?>
+    <!-- Lead kalkulátor: statikus hostokon (GitHub Pages) nincs PHP include — a teljes markup itt van. Változáskor egyeztesd az ajanlat-section.php-vel. -->
+    <section class="contact qualifier-section" id="contact">
+      <div class="qualifier-shell">
+
+        <!-- Intro -->
+        <div class="qualifier-intro">
+          <div class="qualifier-kicker">Ingyenes árajánlat</div>
+          <h2 class="qualifier-title">Klímaajánlat,<br>ami nem csak <span>tippel.</span></h2>
+          <p class="qualifier-lead">
+            Pár kérdés — és máris látja, mire számíthat. Ha szimpatikus az irány, visszahívjuk, és egyeztetünk a részletekről.
+          </p>
+          <div class="qualifier-proof">
+            <div class="qualifier-proof__item">
+              <span class="qualifier-proof__value">500+</span>
+              <span class="qualifier-proof__label">Elégedett ügyfél</span>
+            </div>
+            <div class="qualifier-proof__item">
+              <span class="qualifier-proof__value">5.0</span>
+              <span class="qualifier-proof__label">Google értékelés</span>
+            </div>
+            <div class="qualifier-proof__item">
+              <span class="qualifier-proof__value">24 óra</span>
+              <span class="qualifier-proof__label">Válaszidő</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card -->
+        <div class="qualifier-card" id="mainCard">
+
+          <!-- Progress Bar -->
+          <div class="qualifier-progress" id="progressWrap">
+            <div class="qualifier-progress__top">
+              <div>
+                <span class="qualifier-progress__eyebrow">Gyors áttekintés</span>
+                <span class="qualifier-progress__label" id="stepLabel">Hol lesz a klíma?</span>
+              </div>
+              <span class="qualifier-progress__count" id="stepCount">1 / 9</span>
+            </div>
+            <div class="progress-dots" id="progressDots">
+              <div class="progress-dot current" data-step="1"></div>
+              <div class="progress-dot" data-step="2"></div>
+              <div class="progress-dot" data-step="3"></div>
+              <div class="progress-dot" data-step="4"></div>
+              <div class="progress-dot" data-step="5"></div>
+              <div class="progress-dot" data-step="6"></div>
+              <div class="progress-dot" data-step="7"></div>
+              <div class="progress-dot" data-step="8"></div>
+              <div class="progress-dot" data-step="9"></div>
+            </div>
+          </div>
+
+          <!-- STEP 1: Postcode -->
+          <div class="step active" id="step-1">
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>Hol készülne a klíma?</h2>
+            <p>Írja be az irányítószámot — így látjuk, el tudunk-e jutni Önhöz ingyenes kiszállással.</p>
+
+            <div class="hint-box">
+              <strong>Ingyenes kiszállás</strong> Budapesten és a 30 km-es körzetben — sok helyen már másnap ott vagyunk.
+            </div>
+
+            <label>Irányítószám</label>
+            <input class="input-field" id="postcodeInput" type="tel" inputmode="numeric" maxlength="4"
+              placeholder="pl. 1051" autocomplete="postal-code" />
+            <div class="field-error" id="postcodeError">Kérjük, adjon meg érvényes 4 jegyű irányítószámot.</div>
+            <div class="service-area-note" id="serviceAreaNote">Jelenleg csak Budapest és 30 km-es körzete számára tudunk szolgáltatást nyújtani. Kollégáink rögzítik kérését.</div>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="validatePostcode()">Tovább →</button>
+          </div>
+
+          <!-- STEP 2: Service Type (mapped to page naming) -->
+          <div class="step" id="step-2">
+            <button class="qualifier-back" onclick="goBack(1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span>Mire van most szüksége?</h2>
+            <p>Válassza ki, amire most gondolt — a többit megbeszéljük telefonon vagy helyszínen.</p>
+            <div class="grid" id="serviceChoices">
+              <div class="choice-card items-center" onclick="selectChoice('service','Klímatelepítés',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <div><span class="font-bold">Klímatelepítés</span><br><span class="text-xs">Új klíma felszerelése</span></div>
+                <span class="service-price">90 000 Ft + ÁFA-tól</span>
+              </div>
+              <div class="choice-card items-center" onclick="selectChoice('service','Éves karbantartás',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+                <div><span class="font-bold">Éves karbantartás</span><br><span class="text-xs">Évi szerviz, tisztítás</span></div>
+                <span class="service-price">15 000 Ft + ÁFA-tól</span>
+              </div>
+              <div class="choice-card items-center" onclick="selectChoice('service','Mély tisztítás',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M8.56 2.9A7 7 0 0121 10a7 7 0 01-.78 3.22"/><path d="M16.72 11.06A10.94 10.94 0 0119 12.55"/><path d="M5 12.55a10.94 10.94 0 015.17-2.39"/><path d="M10.71 5.05A16 16 0 0122.56 9"/><path d="M1.42 9a15.91 15.91 0 014.7-2.88"/><path d="M8.53 16.11a6 6 0 006.95 0"/></svg></div>
+                <div><span class="font-bold">Mély tisztítás</span><br><span class="text-xs">Alapos beltéri és kültéri tisztítás</span></div>
+                <span class="service-price">25 000 Ft + ÁFA-tól</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Property Type -->
+          <div class="step" id="step-3">
+            <button class="qualifier-back" onclick="goBack(2)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Milyen otthonban dolgoznánk?</h2>
+            <p>Panel, tégla vagy ház — ettől függhet a szerelés menete és az időráfordítás.</p>
+            <div class="grid grid-cols-3" id="propertyChoices">
+              <div class="choice-card text-center" onclick="selectChoice('property','Panel',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="7" x2="9" y2="7.01"/><line x1="15" y1="7" x2="15" y2="7.01"/><line x1="9" y1="12" x2="9" y2="12.01"/><line x1="15" y1="12" x2="15" y2="12.01"/><line x1="9" y1="17" x2="9" y2="17.01"/><line x1="15" y1="17" x2="15" y2="17.01"/></svg></div>
+                <div class="font-bold">Panel</div>
+                <div class="text-xs">Panellakás</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('property','Tégla',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9.5" y1="14.5" x2="14.5" y2="14.5"/></svg></div>
+                <div class="font-bold">Tégla</div>
+                <div class="text-xs">Téglalakás/ház</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('property','Ház',this)">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="font-bold">Ház</div>
+                <div class="text-xs">Egyéb ingatlan</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: Room Size -->
+          <div class="step" id="step-4">
+            <button class="qualifier-back" onclick="goBack(3)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v7h18V3z"/><path d="M21 14H3v7h18v-7z"/><line x1="12" y1="3" x2="12" y2="21"/></svg></span>Mekkora helyiséget hűtene?</h2>
+            <p>Válasszon hozzá közelítő méretet — így tudunk reális klímaajánlatot adni.</p>
+            <div class="grid grid-cols-2" id="sizeChoices">
+              <div class="choice-card text-center" onclick="selectChoice('size','<20m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></div>
+                <div class="font-bold">Kis szoba</div>
+                <div class="text-xs">20 m² alatt</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','20–35m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                <div class="font-bold">Közepes szoba</div>
+                <div class="text-xs">20 – 35 m²</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','35–50m²',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+                <div class="font-bold">Nagy szoba</div>
+                <div class="text-xs">35 – 50 m²</div>
+              </div>
+              <div class="choice-card text-center" onclick="selectChoice('size','50m²+',this)" style="align-items:center;">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon card-choice-icon--center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="2" y1="15" x2="22" y2="15"/><line x1="9" y1="2" x2="9" y2="22"/><line x1="15" y1="2" x2="15" y2="22"/></svg></div>
+                <div class="font-bold">Nagyon nagy</div>
+                <div class="text-xs">50 m² felett</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5: Heating preference (updated heading) -->
+          <div class="step" id="step-5">
+            <button class="qualifier-back" onclick="goBack(4)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg></span>Nyáron hűtés, télen fűtés is kellene?</h2>
+            <p>Ha egész évben kellemes hőmérsékletet szeretne, válassza a fűtés+hűtés opciót. Ha inkább csak a kánikulára gondolt, elég a hűtés.</p>
+            <div class="grid" id="heatingChoices">
+              <div class="choice-card items-center" onclick="selectHeatingPref('futes')">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+                <div><span class="font-bold">Hűtés + fűtés</span><br><span class="text-xs">Egész éves komfort egy készülékkel</span></div>
+              </div>
+              <div class="choice-card items-center" onclick="selectHeatingPref('hutes')">
+                <div class="check-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-choice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 7 13 17 8 12 1 19"/><polyline points="17 7 23 7 23 13"/></svg></div>
+                <div><span class="font-bold">Csak hűtés</span><br><span class="text-xs">A nyári meleg ellen — egyszerűbb megoldás</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6: Product Selection (single) -->
+          <div class="step" id="step-6">
+            <button class="qualifier-back" onclick="goBack(5)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 6v6l4 2"/><path d="M8 2.27A10 10 0 0022 12"/></svg></span>Melyik klíma illik Önhöz?</h2>
+            <p id="productStepSubtitle">Az Ön által megadott méret alapján válogattunk — kattintson a szimpatikus modellre.</p>
+            <div id="productFilterHint" class="hint-box" style="display:none;"></div>
+            <div id="productLoader" class="loader-wrap" style="padding:20px 0;">
+              <div class="spinner"></div>
+              <div style="font-size:14px;color:#9a9a9a;">Egy pillanat, összeállítjuk az ajánlott készülékeket…</div>
+            </div>
+            <div id="productGrid" class="grid" style="display:none;"></div>
+            <div id="productError" style="display:none;text-align:center;padding:20px 0;color:#9a9a9a;font-size:13px;">
+              Most nem érjük el a készüléklistát — próbáljuk meg helyi példákkal.
+              <br><span class="qualifier-skip" onclick="loadFallbackProducts()" style="display:inline;margin-top:8px;">Példakészülékek megjelenítése →</span>
+            </div>
+          </div>
+
+          <!-- STEP 7: Pipe Length -->
+          <div class="step" id="step-7">
+            <button class="qualifier-back" onclick="goBack(6)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>Milyen hosszan menne a cső?</h2>
+            <p>Az első 3 méter benne van az árban. Ha tovább kell vezetni, méterenként számolunk — ez is bekerül az összegbe.</p>
+
+            <div class="hint-box">
+              <strong>Tipp:</strong> Gondolja végig a beltéri és a kültéri egység közti útvonalat (falon kívül vagy burkolat alatt). Ha bizonytalan, hagyja üresen — felmérenél pontosítjuk.
+            </div>
+
+            <label>Csőhossz (méterben, ha tudja)</label>
+            <div class="pipe-input-row">
+              <input class="input-field" id="pipeMetersInput" type="number" inputmode="decimal" min="0" max="50" step="0.5" placeholder="pl. 5" style="width:80px;flex-shrink:0;text-align:center;padding:10px 8px;margin-bottom:0;" />
+              <span style="font-size:14px;color:#ccc;">méter</span>
+              <span class="text-gold font-bold pipe-result" id="pipeCalcResult">—</span>
+            </div>
+
+            <div style="font-size:12px;color:#9a9a9a;margin-bottom:12px;line-height:1.5;">
+              Nem kötelező kitölteni — ha üresen hagyja, az alap 3 méterrel számolunk.
+            </div>
+
+            <div class="summary-row" style="font-size:12px;">
+              <span class="summary-key">Benne van az árban</span>
+              <span class="summary-val" style="color:#4caf50;">3 m cső</span>
+            </div>
+            <div class="summary-row" id="pipeExtraRow" style="display:none;font-size:12px;">
+              <span class="summary-key" id="pipeExtraLabel">Többlet: 0 m</span>
+              <span class="summary-val" id="pipeExtraPrice" style="color:var(--brand-light);">+ 0 Ft</span>
+            </div>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="goToStep(8)">Tovább →</button>
+          </div>
+
+          <!-- STEP 8: Photo Upload -->
+          <div class="step" id="step-8">
+            <button class="qualifier-back" onclick="goBack(7)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></span>Legyen egy fotó?</h2>
+            <p>Ha küld képet a falról és a kültéri helyről, pontosabb ajánlatot adunk — de nyugodtan kihagyhatja is.</p>
+
+            <div class="hint-box">
+              <strong>Tipp:</strong> Elég egy telefonos kép a beltéri helyről és arról, hova kerülhet a kültéri egység.
+            </div>
+
+            <div class="file-drop" id="fileDrop">
+              <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handleFileSelect(this)" />
+              <div class="file-drop-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <div class="font-bold" style="font-size:15px;margin-bottom:6px;">Kattintson ide, vagy húzza rá a képet</div>
+              <div class="text-xs" style="color:#9a9a9a;">JPG vagy PNG, legfeljebb 10 MB</div>
+            </div>
+            <div class="file-preview-name" id="filePreview">
+              <img id="previewImg" src="" alt="Előnézet" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;" />
+              <div id="previewName" style="margin-top:6px;"></div>
+            </div>
+
+            <span class="qualifier-skip" onclick="goToStep(9)">Nincs kéznél fotó, tovább megyek →</span>
+
+            <button class="btn btn--primary btn--full mt-8" onclick="goToStep(9)" id="photoNextBtn">Tovább →</button>
+          </div>
+
+          <!-- STEP 9: Contact Info + Quote -->
+          <div class="step" id="step-9">
+            <button class="qualifier-back" onclick="goBack(8)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Vissza
+            </button>
+            <h2><span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>Itt a becsült összege</h2>
+            <p>Ez tájékoztató jellegű — a helyszíni felmérés után pontosítjuk, ha kéri az ajánlatot.</p>
+
+            <div class="quote-box">
+              <span class="quote-box__label">Becsült összeg (nettó + ÁFA)</span>
+              <div class="quote-box__price" id="quotePrice">—</div>
+              <span class="quote-box__note" id="quoteNote">A magánszemélynek szóló ajánlatoknál szokás így feltüntetni: először a nettó összeg, mellé az ÁFA — együtt ez adja ki, amit összesen fizet.</span>
+            </div>
+
+            <div id="itemizedQuote"></div>
+            <div id="summaryRows"></div>
+
+            <div class="quote-divider"></div>
+
+            <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:14px;">
+              Hagyja meg a telefonszámát — <strong style="color:#eee">felhívjuk</strong>, és megbeszéljük, hogyan tovább. Nem spamelünk.
+            </p>
+
+            <div class="contact-form-card">
+              <div>
+                <label>Teljes neve *</label>
+                <input class="input-field" id="nameInput" type="text" placeholder="pl. Kovács János" autocomplete="name" />
+                <div class="field-error" id="nameError">Kérjük, adja meg a nevét.</div>
+              </div>
+              <div>
+                <label>E-mail cím *</label>
+                <input class="input-field" id="emailInput" type="email" placeholder="pl. kovacs.janos@email.hu" autocomplete="email" />
+                <div class="field-error" id="emailError">Kérjük, adjon meg érvényes e-mail címet.</div>
+              </div>
+              <div>
+                <label>Telefonszám *</label>
+                <input class="input-field" id="phoneInput" type="tel" placeholder="pl. +36 70 123 4567" autocomplete="tel" />
+                <div class="field-error" id="phoneError">Kérjük, adjon meg telefonszámot.</div>
+              </div>
+            </div>
+
+            <!-- Hidden fields -->
+            <input type="hidden" id="csrfToken" value="">
+            <input type="text" id="websiteField" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
+
+            <div class="loader-wrap" id="loaderWrap">
+              <div class="spinner"></div>
+              <div style="font-size:14px;color:#9a9a9a;">Elküldjük a kérést…</div>
+            </div>
+
+            <button class="btn btn--primary btn--full mt-8" id="submitBtn" onclick="submitForm()">Kérem a visszahívást és a részletes ajánlatot</button>
+
+            <div class="qualifier-trust">
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Adatvédelem
+              </div>
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                24h válasz
+              </div>
+              <div class="qualifier-trust__item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Rejtett díj nélkül
+              </div>
+            </div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="step" id="step-success">
+            <div style="text-align:center;padding:20px 0;">
+              <div class="success-icon-wrap">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--gold)" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <h2 style="font-size:clamp(22px,3vw,28px);font-weight:900;color:#fff;text-align:center;letter-spacing:-0.03em;display:block;">Köszönjük — megkaptuk!</h2>
+              <p style="font-size:14px;color:rgba(255,255,255,0.45);text-align:center;margin-top:8px;line-height:1.6;">
+                Hamarosan jelentkezünk a megadott számon vagy e-mailen.<br>
+                Ha nem találja a levelünket, nézze meg a levélszemét mappát is.
+              </p>
+
+              <div class="quote-box" style="margin-top:24px;">
+                <span class="quote-box__label">Emlékeztetőül: becsült összeg (nettó + ÁFA)</span>
+                <div class="quote-box__price" id="finalPrice">—</div>
+              </div>
+
+              <a href="tel:+36702742138" class="btn btn--primary btn--full" style="margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Visszahívás kérése
+              </a>
+            </div>
+          </div>
+
+        </div><!-- /qualifier-card -->
+      </div><!-- /qualifier-shell -->
+    </section>
+    <p class="contact-qualifier-fallback" style="text-align:center;margin:0.5rem 1rem 2.5rem;font-size:13px;color:rgba(255,255,255,0.5);">
+      Ha bármi nem töltődik be: <a href="ajanlat.html" style="color:#d4af37;text-decoration:underline;">árajánlatkérő megnyitása külön lapon</a>.
+    </p>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">

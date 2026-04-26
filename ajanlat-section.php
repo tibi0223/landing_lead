@@ -1,4 +1,5 @@
-﻿    <section class="contact qualifier-section" id="contact">
+﻿    <!-- Ugyanez a blokk be van másolva az index.html-be (GitHub Pages / statikus kiszolgálás). Módosításkor mindkettőt egyeztesd. -->
+    <section class="contact qualifier-section" id="contact">
       <div class="qualifier-shell">
 
         <!-- Intro -->
