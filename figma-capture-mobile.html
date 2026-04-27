@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <!--
-  Figma HTML→Design — mobile-width capture (390px document, avoids ~1900px empty frame).
+  ═══ Mobil nézet → Figma (ugyanabba a fájlba) ═══
 
-  1) Terminal:  npx http-server . -p 8877
-  2) Paste in browser (one line; replace captureId when you generate a new one in Figma MCP):
+  Cél: a landing oldal ~390px szélességű nézete kerüljön a meglévő Figma fájlba,
+  ne egy széles (pl. 1900px) „üres” keretbe szorítva.
 
-  http://127.0.0.1:8877/figma-capture-mobile.html#figmacapture=dafe9144-ff4d-4a8c-b43c-72d17454ab1b&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fdafe9144-ff4d-4a8c-b43c-72d17454ab1b%2Fsubmit&figmadelay=18000
+  Figma fájl: https://www.figma.com/design/7ZfmUiQvU3tALzeFXEJY76
 
-  Wait until the capture finishes; a new frame appears in the Figma file.
+  Lépések (mindig ebben a sorrendben):
+
+  1) Nyisd a projekt mappáját terminálban, indíts helyi szervert (8877-es port):
+       npx http-server . -p 8877 -a 127.0.0.1
+
+  2) Másold be a böngésző címsorába EZT az egy sort (hash is kell — ez indítja a Figma capture-t):
+
+  http://127.0.0.1:8877/figma-capture-mobile.html#figmacapture=d4d64728-dd80-423b-bc41-987863cd0975&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fd4d64728-dd80-423b-bc41-987863cd0975%2Fsubmit&figmadelay=20000
+
+  3) Várj: a figmadelay=20000 = 20 mp, hogy az iframe betöltse az index.html-t. Ne zárd be a lapot, amíg a capture fut.
+
+  4) A Figma fájlban megjelenik egy ÚJ frame (rétegek panel). A régi, rossz „mobile” keretet törölheted kézzel.
+
+  Fontos: minden capture ID egyszer használható. Ha ez az URL már nem működik, Cursor / Figma MCP:
+  generate_figma_design → outputMode: existingFile → fileKey: 7ZfmUiQvU3tALzeFXEJY76
+  → új captureId → cseréld ki a fenti URL-ben a figmacapture= és a .../capture/... részekben.
 -->
 <html lang="hu" style="width:390px;max-width:390px;margin:0;padding:0;">
 <head>
