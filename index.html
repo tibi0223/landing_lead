@@ -13,6 +13,32 @@ $enablePublicAnalytics = in_array($hostLower, $analyticsHosts, true);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    (function () {
+      try {
+        var qs = window.location.search || '';
+        var wantMobile = /[?&]figmaViewportMobile=1(?:&|$)/.test(qs);
+        var wantCapture = (window.location.hash || '').indexOf('figmacapture') !== -1;
+        if (wantMobile) {
+          var mv = document.querySelector('meta[name="viewport"]');
+          if (mv) {
+            mv.setAttribute('content', 'width=390, initial-scale=1, maximum-scale=1, viewport-fit=cover');
+          }
+          var st = document.createElement('style');
+          st.id = 'figma-mobile-viewport-fix';
+          st.textContent =
+            'html,body{max-width:390px!important;width:100%!important;margin:0 auto!important;overflow-x:hidden!important;box-sizing:border-box;}';
+          document.head.appendChild(st);
+        }
+        if (wantCapture) {
+          var sc = document.createElement('script');
+          sc.src = 'https://mcp.figma.com/mcp/html-to-design/capture.js';
+          sc.async = true;
+          document.head.appendChild(sc);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
   <meta name="description"
     content="Professzionális klímaszerelés és karbantartás Budapesten és környékén. Ingyenes helyszíni felmérés, garancia, rejtett költségek nélkül. Hívjon most: +36 70 274 2138" />
   <meta name="keywords"

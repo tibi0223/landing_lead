@@ -1,70 +1,49 @@
 <!DOCTYPE html>
 <!--
-  ═══ Mobil nézet → Figma (ugyanabba a fájlba) ═══
+  ═══ Mobil → Figma (NEM iframe – ez volt az „üres” Figma oka) ═══
 
-  Cél: a landing oldal ~390px szélességű nézete kerüljön a meglévő Figma fájlba,
-  ne egy széles (pl. 1900px) „üres” keretbe szorítva.
+  A Figma HTML→Design gyakran nem viszi át az iframe-ben lévő index.html-t → üres / csíkos frame.
+  Megoldás: átirányítás az index.html-re ?figmaViewportMobile=1 + ugyanaz a #figmacapture=… hash.
+  Az index.html fejléce ilyenkor 390px-re szűkít + betölti a capture scriptet, ha van figmacapture a hashben.
 
   Figma fájl: https://www.figma.com/design/7ZfmUiQvU3tALzeFXEJY76
 
-  Lépések (mindig ebben a sorrendben):
+  1) Szerver (a PORT szám legyen ugyanaz mindenhol, pl. 8077 vagy 8877):
+       npx http-server . -p 8077 -a 127.0.0.1
 
-  1) Nyisd a projekt mappáját terminálban, indíts helyi szervert (8877-es port):
-       npx http-server . -p 8877 -a 127.0.0.1
+  2a) AJÁNLOTT – egyből az index (másold be a böngészőbe, egy sor):
 
-  2) Másold be a böngésző címsorába EZT az egy sort (hash is kell — ez indítja a Figma capture-t):
+  http://127.0.0.1:8077/index.html?figmaViewportMobile=1#figmacapture=e2c29d33-ec37-4ecd-b09e-2fd5eedbc560&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fe2c29d33-ec37-4ecd-b09e-2fd5eedbc560%2Fsubmit&figmadelay=25000
 
-  http://127.0.0.1:8877/figma-capture-mobile.html#figmacapture=d4d64728-dd80-423b-bc41-987863cd0975&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fd4d64728-dd80-423b-bc41-987863cd0975%2Fsubmit&figmadelay=20000
+  2b) Vagy nyisd ezt a fájlt ugyanazzal a hash-cel – átirányít a fenti index URL-re:
+       http://127.0.0.1:8077/figma-capture-mobile.html#figmacapture=e2c29d33-ec37-4ecd-b09e-2fd5eedbc560&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fe2c29d33-ec37-4ecd-b09e-2fd5eedbc560%2Fsubmit&figmadelay=25000
 
-  3) Várj: a figmadelay=20000 = 20 mp, hogy az iframe betöltse az index.html-t. Ne zárd be a lapot, amíg a capture fut.
+  3) Várj a figmadelay idejéig (25 mp). A böngészőben a lapnak tele kell töltenie – nem iframe.
 
-  4) A Figma fájlban megjelenik egy ÚJ frame (rétegek panel). A régi, rossz „mobile” keretet törölheted kézzel.
-
-  Fontos: minden capture ID egyszer használható. Ha ez az URL már nem működik, Cursor / Figma MCP:
-  generate_figma_design → outputMode: existingFile → fileKey: 7ZfmUiQvU3tALzeFXEJY76
-  → új captureId → cseréld ki a fenti URL-ben a figmacapture= és a .../capture/... részekben.
+  Új captureId-hez: Figma MCP → generate_figma_design → existingFile → fileKey: 7ZfmUiQvU3tALzeFXEJY76,
+  majd cseréld a hashben a figmacapture=… és az endpoint …/capture/…/submit részekben az ID-t.
 -->
-<html lang="hu" style="width:390px;max-width:390px;margin:0;padding:0;">
+<html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=390, initial-scale=1, maximum-scale=1" />
-  <title>Figma – mobile viewport</title>
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-    html {
-      width: 390px !important;
-      max-width: 390px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow-x: hidden;
-      background: #080808;
-    }
-    body {
-      width: 390px !important;
-      max-width: 390px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow-x: hidden;
-      background: #080808;
-    }
-    iframe {
-      display: block;
-      width: 390px !important;
-      max-width: 390px !important;
-      height: 12000px;
-      border: 0;
-      margin: 0;
-      padding: 0;
-      vertical-align: top;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <title>Figma mobil – átirányítás</title>
+  <script>
+    (function () {
+      var h = window.location.hash || '';
+      var base = window.location.pathname.replace(/[^/]+$/, '');
+      if (base === '/') base = '';
+      window.location.replace(window.location.origin + base + 'index.html?figmaViewportMobile=1' + h);
+    })();
+  </script>
 </head>
-<body>
-  <iframe src="index.html" title="Landing mobile capture" loading="eager"></iframe>
+<body style="font-family: system-ui, sans-serif; padding: 1.5rem; background: #111; color: #ccc;">
+  <p>Átirányítás az <strong>index.html?figmaViewportMobile=1</strong> címre…</p>
+  <p><a id="manual" href="#" style="color: #d4af37;">Kattints ide, ha nem történik automatikusan</a></p>
+  <script>
+    var h = window.location.hash || '';
+    var a = document.getElementById('manual');
+    var u = 'index.html?figmaViewportMobile=1' + h;
+    a.href = u;
+  </script>
 </body>
 </html>
